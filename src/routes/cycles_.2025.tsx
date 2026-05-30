@@ -102,7 +102,9 @@ function Cycle2025() {
           <div className="overflow-hidden rounded-2xl border border-border bg-card">
             <div className="border-b border-border px-5 py-3">
               <h2 className="text-sm font-semibold">Funded startups</h2>
-              <p className="text-xs text-muted-foreground">Sorted by investment volume</p>
+              <p className="text-xs text-muted-foreground">
+                Sortiert nach Investmentvolumen · Allokation durch die Fondsmanager, unabhängig vom Voting-Ranking
+              </p>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
