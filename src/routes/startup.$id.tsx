@@ -177,7 +177,7 @@ function StartupPage() {
             </div>
           ) : (
             <div className="grid grid-cols-3 gap-3">
-              {detail.images.map((img, i) => (
+              {detail.images.map((img: { color: string; label: string }, i: number) => (
                 <div
                   key={i}
                   className={`aspect-[4/3] rounded-xl bg-gradient-to-br ${img.color} flex items-end p-3 text-xs font-medium text-white/90 shadow-sm`}
@@ -310,6 +310,10 @@ function StartupPage() {
 }
 
 function renderBody(body: string) {
+  return _renderBody(body);
+}
+
+function _renderBody(body: string) {
   // highlight @mentions in primary color
   const parts = body.split(/(@[a-zA-Z0-9_]+)/g);
   return parts.map((p, i) =>
