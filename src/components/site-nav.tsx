@@ -4,7 +4,7 @@ import { useApp } from "@/lib/app-context";
 
 export function SiteNav() {
   const linkClass =
-    "text-foreground/70 transition-colors hover:text-foreground data-[status=active]:text-foreground data-[status=active]:font-semibold";
+    "whitespace-nowrap text-foreground/70 transition-colors hover:text-foreground data-[status=active]:text-foreground data-[status=active]:font-semibold";
   const { user, isAuthenticated, openLogin, logout } = useApp();
   return (
     <nav className="hidden sm:flex items-center gap-5 text-[13px] font-medium">
