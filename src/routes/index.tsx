@@ -7,6 +7,7 @@ import { startups } from "@/data/startups";
 import { BerlinHuntLogo } from "@/components/berlin-hunt-logo";
 import { StartupLogo } from "@/components/startup-logo";
 import { SiteNav } from "@/components/site-nav";
+import { CountdownBadge } from "@/components/countdown-badge";
 import { useApp } from "@/lib/app-context";
 
 export const Route = createFileRoute("/")({
@@ -21,27 +22,8 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-// Voting closes 3 days, 12 hours from the user's first visit (for the mockup).
-const VOTE_WINDOW_MS = (3 * 24 + 12) * 60 * 60 * 1000;
-
-function useCountdown(targetMs: number) {
-  const [now, setNow] = useState(() => Date.now());
-  useEffect(() => {
-    const i = setInterval(() => setNow(Date.now()), 1000);
-    return () => clearInterval(i);
-  }, []);
-  const remaining = Math.max(0, targetMs - now);
-  const days = Math.floor(remaining / (24 * 60 * 60 * 1000));
-  const hours = Math.floor((remaining / (60 * 60 * 1000)) % 24);
-  const minutes = Math.floor((remaining / (60 * 1000)) % 60);
-  const seconds = Math.floor((remaining / 1000) % 60);
-  return { days, hours, minutes, seconds, remaining };
-}
-
 function Index() {
   const [category, setCategory] = useState<string>("All");
-  const [target] = useState(() => Date.now() + VOTE_WINDOW_MS);
-  const { days, hours, minutes, seconds } = useCountdown(target);
   const { votedIds, toggleVote } = useApp();
 
   const categories = useMemo(() => {
@@ -91,7 +73,7 @@ function Index() {
               Vote now for your favourite startups to get funding.
             </p>
             <div className="sm:ml-auto">
-              <CountdownBadge days={days} hours={hours} minutes={minutes} seconds={seconds} />
+              <CountdownBadge />
             </div>
           </div>
         </motion.div>
