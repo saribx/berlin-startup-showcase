@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { ChevronUp, Sparkles } from "lucide-react";
+import { useMemo, useState } from "react";
 import { startups } from "@/data/startups";
 
 export const Route = createFileRoute("/")({
@@ -17,6 +18,19 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const [category, setCategory] = useState<string>("All");
+
+  const categories = useMemo(() => {
+    const set = new Set<string>();
+    startups.forEach((s) => set.add(s.category));
+    return ["All", ...Array.from(set).sort()];
+  }, []);
+
+  const filtered = useMemo(
+    () => (category === "All" ? startups : startups.filter((s) => s.category === category)),
+    [category],
+  );
+
   return (
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-30 border-b border-border bg-background/80 backdrop-blur-md">
@@ -44,17 +58,39 @@ function Index() {
             Top 50 Berlin Startups
           </h1>
           <p className="mt-3 text-base text-muted-foreground">
-            Curated weekly. The products and teams shaping Berlin's tech scene right now.
+            Vote now for your favourite startups to get funding.
           </p>
         </motion.div>
 
+        <div className="mb-6 -mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
+          {categories.map((c) => {
+            const active = c === category;
+            return (
+              <button
+                key={c}
+                onClick={() => setCategory(c)}
+                className={`shrink-0 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
+                  active
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-border bg-card text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {c}
+              </button>
+            );
+          })}
+        </div>
+
         <ol className="divide-y divide-border rounded-2xl border border-border bg-card">
-          {startups.map((s, i) => (
+          <AnimatePresence initial={false}>
+          {filtered.map((s, i) => (
             <motion.li
               key={s.id}
+              layout
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: Math.min(i * 0.015, 0.4) }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25, delay: Math.min(i * 0.012, 0.3) }}
             >
               <Link
                 to="/startup/$id"
@@ -87,6 +123,7 @@ function Index() {
               </Link>
             </motion.li>
           ))}
+          </AnimatePresence>
         </ol>
 
         <p className="mt-10 text-center text-sm text-muted-foreground">

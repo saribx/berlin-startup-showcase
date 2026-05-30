@@ -16,6 +16,7 @@ export interface StartupDetail extends Startup {
   website: string;
   images: { color: string; label: string }[];
   metrics: { label: string; value: string }[];
+  comments?: { author: string; role: string; initials: string; time: string; body: string }[];
 }
 
 export const startups: Startup[] = [
@@ -98,6 +99,11 @@ export const startupDetails: Record<number, StartupDetail> = {
       { label: "MRR", value: "€85K" },
       { label: "Retention (90d)", value: "68%" },
     ],
+    comments: [
+      { author: "Lena Hoffmann", role: "Product designer", initials: "LH", time: "2h ago", body: "Been using Zenflow for three months — my deep work hours went from 1.5 to 4 per day. The adaptive timer actually learns." },
+      { author: "Marc Schulz", role: "Engineering lead @ N26", initials: "MS", time: "5h ago", body: "Finally a focus app that doesn't feel like a productivity cult. Clean, fast, respects your data." },
+      { author: "Aïsha Diallo", role: "Indie founder", initials: "AD", time: "1d ago", body: "The weekly focus score is oddly motivating. Voted!" },
+    ],
   },
   2: {
     ...startups[1],
@@ -121,6 +127,11 @@ export const startupDetails: Record<number, StartupDetail> = {
       { label: "Tracks created", value: "2.1M" },
       { label: "Avg session", value: "47 min" },
     ],
+    comments: [
+      { author: "Tobias Renner", role: "Producer, Berghain resident", initials: "TR", time: "3h ago", body: "Sub-30ms latency is real. Jammed with a friend in Lisbon last night — felt like the same room." },
+      { author: "Nora Vogel", role: "Vocalist", initials: "NV", time: "8h ago", body: "The built-in sample library alone is worth it. Underground gold." },
+      { author: "Felix Bauer", role: "Sound engineer", initials: "FB", time: "1d ago", body: "Browser DAW that doesn't crash my laptop. Take my money." },
+    ],
   },
   3: {
     ...startups[2],
@@ -143,6 +154,11 @@ export const startupDetails: Record<number, StartupDetail> = {
       { label: "Freelancers", value: "8,400" },
       { label: "GMV (2025)", value: "€12.4M" },
       { label: "Match rate", value: "73%" },
+    ],
+    comments: [
+      { author: "Sophie Klein", role: "Freelance illustrator", initials: "SK", time: "4h ago", body: "Three projects in two months, all paid on time. The contracts actually protect freelancers." },
+      { author: "David Krüger", role: "Creative director", initials: "DK", time: "9h ago", body: "Hired two designers through Brückenbau. Vetting quality is noticeably better than the alternatives." },
+      { author: "Pia Neumann", role: "Studio owner", initials: "PN", time: "2d ago", body: "No race-to-the-bottom bidding. Refreshing." },
     ],
   },
 };
