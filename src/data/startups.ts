@@ -7,6 +7,22 @@ export interface Startup {
   emoji: string;
 }
 
+export interface Comment {
+  id: string;
+  author: string;
+  username: string;
+  role: string;
+  company?: string;
+  initials: string;
+  avatarGradient: string;
+  verified?: boolean;
+  maker?: boolean;
+  time: string;
+  body: string;
+  upvotes: number;
+  replies?: Comment[];
+}
+
 export interface StartupDetail extends Startup {
   description: string;
   founded: string;
@@ -16,7 +32,7 @@ export interface StartupDetail extends Startup {
   website: string;
   images: { color: string; label: string }[];
   metrics: { label: string; value: string }[];
-  comments?: { author: string; role: string; initials: string; time: string; body: string }[];
+  comments?: Comment[];
 }
 
 // Real Berlin startups (2026). Top 10 = the "heißesten" list, then the rest.
