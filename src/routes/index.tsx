@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronUp, Lock, Timer } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import { startups } from "@/data/startups";
 import { BerlinHuntLogo } from "@/components/berlin-hunt-logo";
 
@@ -120,9 +120,8 @@ function Index() {
         <ol className="divide-y divide-border rounded-2xl border border-border bg-card">
           <AnimatePresence initial={false}>
           {filtered.map((s, i) => (
-            <>
+            <Fragment key={s.id}>
             <motion.li
-              key={s.id}
               layout
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
@@ -161,7 +160,6 @@ function Index() {
             </motion.li>
             {category === "All" && s.id === 50 && (
               <motion.li
-                key="cutoff"
                 layout
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -188,7 +186,7 @@ function Index() {
                 <div className="pointer-events-none absolute inset-x-0 -bottom-px h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
               </motion.li>
             )}
-            </>
+            </Fragment>
           ))}
           </AnimatePresence>
         </ol>
