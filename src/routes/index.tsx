@@ -10,9 +10,9 @@ import { StartupLogo } from "@/components/startup-logo";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Berlin Hunt — Vote for the top 50 Berlin Startups" },
+      { title: "Hauptstadt50 — Vote for the top 50 Berlin Startups" },
       { name: "description", content: "Vote for the 50 Berlin startups that should receive funding this cycle." },
-      { property: "og:title", content: "Berlin Hunt — Vote for the top 50 Berlin Startups" },
+      { property: "og:title", content: "Hauptstadt50 — Vote for the top 50 Berlin Startups" },
       { property: "og:description", content: "Vote for the 50 Berlin startups that should receive funding this cycle." },
     ],
   }),
@@ -61,7 +61,7 @@ function Index() {
           <div className="flex items-center gap-2.5">
             <BerlinHuntLogo size={36} className="drop-shadow-sm" />
             <div className="flex flex-col leading-none">
-              <span className="text-[15px] font-semibold tracking-tight">Berlin Hunt</span>
+              <span className="text-[15px] font-semibold tracking-tight">Hauptstadt50</span>
               <span className="mt-0.5 text-[10px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
                 Funding cycle 2026
               </span>
@@ -222,13 +222,13 @@ function FundingHero() {
   useEffect(() => {
     if (startedRef.current) return;
     startedRef.current = true;
-    const duration = 2200;
+    const duration = 3600;
     const start = performance.now();
     let raf = 0;
     const tick = (now: number) => {
       const t = Math.min(1, (now - start) / duration);
-      // easeOutQuint — fast start, slow finish
-      const eased = 1 - Math.pow(1 - t, 5);
+      // easeOutExpo — fast start, very slow finish
+      const eased = t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
       setValue(Math.floor(eased * target));
       if (t < 1) raf = requestAnimationFrame(tick);
       else setValue(target);
@@ -240,15 +240,15 @@ function FundingHero() {
   const formatted = value.toLocaleString("de-DE");
 
   return (
-    <section className="relative flex min-h-[78vh] items-center justify-center overflow-hidden px-6 py-16">
+    <section className="relative flex min-h-[62vh] items-center justify-center overflow-hidden px-6 py-12">
       <div className="absolute inset-0 -z-10 bg-gradient-to-b from-background via-background to-muted/40" />
-      <div className="absolute inset-x-0 top-1/3 -z-10 mx-auto h-[420px] max-w-3xl bg-primary/10 blur-3xl" />
+      <div className="absolute inset-x-0 top-1/3 -z-10 mx-auto h-[420px] max-w-3xl bg-emerald-500/15 blur-3xl" />
       <div className="flex flex-col items-center text-center">
         <motion.h1
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-6xl font-bold tracking-tight tabular-nums sm:text-8xl md:text-9xl"
+          className="bg-gradient-to-b from-emerald-400 to-emerald-600 bg-clip-text text-7xl font-bold tracking-tight tabular-nums text-transparent drop-shadow-[0_2px_30px_rgba(16,185,129,0.25)] sm:text-9xl md:text-[10rem] lg:text-[12rem]"
         >
           {formatted} €
         </motion.h1>

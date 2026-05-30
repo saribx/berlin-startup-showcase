@@ -24,7 +24,7 @@ export const Route = createFileRoute("/startup/$id")({
   head: ({ loaderData }) => ({
     meta: loaderData
       ? [
-          { title: `${loaderData.detail.name} — Berlin Hunt` },
+          { title: `${loaderData.detail.name} — Hauptstadt50` },
           { name: "description", content: loaderData.detail.tagline },
         ]
       : [],
