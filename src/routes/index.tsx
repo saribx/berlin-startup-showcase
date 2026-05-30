@@ -70,10 +70,7 @@ function Index() {
               </span>
             </div>
           </div>
-          <div className="flex items-center gap-5">
-            <SiteNav />
-            <CountdownBadge days={days} hours={hours} minutes={minutes} seconds={seconds} />
-          </div>
+          <SiteNav />
         </div>
       </header>
 
@@ -84,14 +81,17 @@ function Index() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-10"
+          className="mb-10 flex flex-wrap items-end justify-between gap-4"
         >
-          <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
-            Vote for the top 50 Berlin Startups
-          </h1>
-          <p className="mt-3 text-base text-muted-foreground">
-            Vote now for your favourite startups to get funding.
-          </p>
+          <div>
+            <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
+              Vote for the top 50 Berlin Startups
+            </h1>
+            <p className="mt-3 text-base text-muted-foreground">
+              Vote now for your favourite startups to get funding.
+            </p>
+          </div>
+          <CountdownBadge days={days} hours={hours} minutes={minutes} seconds={seconds} />
         </motion.div>
 
         <div className="mb-6 -mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
