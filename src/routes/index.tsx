@@ -6,6 +6,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { startups } from "@/data/startups";
 import { BerlinHuntLogo } from "@/components/berlin-hunt-logo";
 import { StartupLogo } from "@/components/startup-logo";
+import { SiteNav } from "@/components/site-nav";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -68,21 +69,7 @@ function Index() {
             </div>
           </div>
           <div className="flex items-center gap-5">
-            <nav className="hidden sm:flex items-center gap-5 text-[13px] font-medium">
-              <Link
-                to="/"
-                activeOptions={{ exact: true }}
-                className="text-foreground/70 transition-colors hover:text-foreground data-[status=active]:text-foreground"
-              >
-                Vote
-              </Link>
-              <Link
-                to="/how-it-works"
-                className="text-foreground/70 transition-colors hover:text-foreground data-[status=active]:text-foreground"
-              >
-                How it works
-              </Link>
-            </nav>
+            <SiteNav />
             <CountdownBadge days={days} hours={hours} minutes={minutes} seconds={seconds} />
           </div>
         </div>
