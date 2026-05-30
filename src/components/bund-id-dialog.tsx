@@ -48,9 +48,6 @@ export function BundIdDialog() {
               </div>
               <div className="text-lg font-bold tracking-tight">BundID</div>
             </div>
-            <span className="ml-auto rounded-full bg-amber-400/90 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-amber-950">
-              Mockup
-            </span>
           </div>
         </div>
 

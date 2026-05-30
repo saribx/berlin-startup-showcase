@@ -63,8 +63,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const logout = useCallback(() => {
     setUser(null);
+    setVotedIds(new Set());
     try {
       localStorage.removeItem(USER_KEY);
+      localStorage.removeItem(VOTES_KEY);
     } catch {}
   }, []);
 
