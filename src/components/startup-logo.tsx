@@ -23,7 +23,7 @@ export function StartupLogo({
 }: Props) {
   const [failed, setFailed] = useState(false);
   const src = domain
-    ? `https://logo.clearbit.com/${domain}?size=${size * 2}`
+    ? `https://www.google.com/s2/favicons?domain=${domain}&sz=128`
     : undefined;
 
   return (
