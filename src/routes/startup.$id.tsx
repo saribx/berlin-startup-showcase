@@ -84,7 +84,7 @@ function StartupPage() {
           transition={{ duration: 0.4, delay: 0.1 }}
           className="mt-10 grid grid-cols-3 gap-3"
         >
-          {detail.images.map((img, i) => (
+          {detail.images.map((img: { color: string; label: string }, i: number) => (
             <div
               key={i}
               className={`aspect-[4/3] rounded-xl bg-gradient-to-br ${img.color} flex items-end p-3 text-xs font-medium text-white/90 shadow-sm`}
@@ -118,7 +118,7 @@ function StartupPage() {
             By the numbers
           </h2>
           <dl className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
-            {detail.metrics.map((m) => (
+            {detail.metrics.map((m: { label: string; value: string }) => (
               <div
                 key={m.label}
                 className="rounded-xl border border-border bg-card p-4"
