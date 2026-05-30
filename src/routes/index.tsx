@@ -67,7 +67,24 @@ function Index() {
               </span>
             </div>
           </div>
-          <CountdownBadge days={days} hours={hours} minutes={minutes} seconds={seconds} />
+          <div className="flex items-center gap-5">
+            <nav className="hidden sm:flex items-center gap-5 text-[13px] font-medium">
+              <Link
+                to="/"
+                activeOptions={{ exact: true }}
+                className="text-foreground/70 transition-colors hover:text-foreground data-[status=active]:text-foreground"
+              >
+                Vote
+              </Link>
+              <Link
+                to="/how-it-works"
+                className="text-foreground/70 transition-colors hover:text-foreground data-[status=active]:text-foreground"
+              >
+                How it works
+              </Link>
+            </nav>
+            <CountdownBadge days={days} hours={hours} minutes={minutes} seconds={seconds} />
+          </div>
         </div>
       </header>
 
