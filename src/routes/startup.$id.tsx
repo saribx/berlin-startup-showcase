@@ -14,6 +14,7 @@ import {
 import { useState } from "react";
 import { getDetail, startups, type Comment, type StartupDetail } from "@/data/startups";
 import { StartupLogo } from "@/components/startup-logo";
+import { useApp } from "@/lib/app-context";
 
 export const Route = createFileRoute("/startup/$id")({
   loader: ({ params }): { detail: StartupDetail } => {
@@ -39,7 +40,8 @@ export const Route = createFileRoute("/startup/$id")({
 
 function StartupPage() {
   const { detail } = Route.useLoaderData();
-  const [voted, setVoted] = useState(false);
+  const app = useApp();
+  const voted = app.hasVoted(detail.id);
   const voteCount = detail.votes + (voted ? 1 : 0);
   const initialComments: Comment[] = detail.comments ?? [];
   const [comments, setComments] = useState<Comment[]>(initialComments);
@@ -143,7 +145,7 @@ function StartupPage() {
               </div>
               <motion.button
                 whileTap={{ scale: 0.94 }}
-                onClick={() => setVoted((v) => !v)}
+                onClick={() => app.toggleVote(detail.id)}
                 className={`flex items-center gap-2 rounded-xl border px-4 py-2 text-sm font-semibold transition-colors ${
                   voted
                     ? "border-primary bg-primary text-primary-foreground"
