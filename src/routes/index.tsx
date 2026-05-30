@@ -7,6 +7,7 @@ import { startups } from "@/data/startups";
 import { BerlinHuntLogo } from "@/components/berlin-hunt-logo";
 import { StartupLogo } from "@/components/startup-logo";
 import { SiteNav } from "@/components/site-nav";
+import { useApp } from "@/lib/app-context";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -41,27 +42,7 @@ function Index() {
   const [category, setCategory] = useState<string>("All");
   const [target] = useState(() => Date.now() + VOTE_WINDOW_MS);
   const { days, hours, minutes, seconds } = useCountdown(target);
-  const [voted, setVoted] = useState<Set<number>>(() => new Set());
-
-  // Hydrate voted set from localStorage after mount (avoid SSR mismatch).
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem("hs50:voted");
-      if (raw) setVoted(new Set(JSON.parse(raw)));
-    } catch {}
-  }, []);
-
-  const toggleVote = (id: number) => {
-    setVoted((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      try {
-        localStorage.setItem("hs50:voted", JSON.stringify([...next]));
-      } catch {}
-      return next;
-    });
-  };
+  const { votedIds, toggleVote } = useApp();
 
   const categories = useMemo(() => {
     const set = new Set<string>();
@@ -153,7 +134,7 @@ function Index() {
                     s={s}
                     rank={s.id}
                     index={i}
-                    voted={voted.has(s.id)}
+                    voted={votedIds.has(s.id)}
                     onVote={() => toggleVote(s.id)}
                   />
                 ))}
@@ -183,7 +164,7 @@ function Index() {
                     rank={s.id}
                     index={i}
                     muted
-                    voted={voted.has(s.id)}
+                    voted={votedIds.has(s.id)}
                     onVote={() => toggleVote(s.id)}
                   />
                 ))}
