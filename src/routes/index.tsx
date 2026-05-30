@@ -234,10 +234,10 @@ function CountdownBadge({
       <div className="absolute -inset-0.5 rounded-2xl bg-gradient-to-r from-primary/40 via-rose-500/30 to-primary/40 opacity-60 blur-sm transition-opacity group-hover:opacity-100" />
       <div className="relative flex items-center gap-3 rounded-2xl border border-border bg-card px-3.5 py-2">
         <div className="hidden flex-col items-start leading-none sm:flex">
-          <span className="text-[8px] font-bold uppercase tracking-[0.16em] text-primary">
-            Live
+          <span className="text-[9px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+            Voting
           </span>
-          <span className="mt-0.5 text-[9px] font-medium uppercase tracking-wider text-muted-foreground">
+          <span className="mt-0.5 text-[9px] font-semibold uppercase tracking-[0.16em] text-foreground">
             Ends in
           </span>
         </div>
@@ -253,10 +253,6 @@ function CountdownBadge({
             <Unit value={seconds} label="Sec" />
           </span>
         </div>
-        <span className="absolute -top-1 -right-1 flex h-2 w-2">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
-          <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
-        </span>
       </div>
     </div>
   );
