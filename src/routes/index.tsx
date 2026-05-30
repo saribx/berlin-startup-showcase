@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronUp, LockOpen } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { startups } from "@/data/startups";
 import { BerlinHuntLogo } from "@/components/berlin-hunt-logo";
 import { StartupLogo } from "@/components/startup-logo";
@@ -70,6 +70,8 @@ function Index() {
           <CountdownBadge days={days} hours={hours} minutes={minutes} seconds={seconds} />
         </div>
       </header>
+
+      <FundingHero />
 
       <main className="mx-auto max-w-4xl px-6 py-12">
         <motion.div
