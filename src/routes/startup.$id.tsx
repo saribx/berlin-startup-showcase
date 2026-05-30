@@ -164,17 +164,41 @@ function StartupPage() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.1 }}
-          className="mt-10 grid grid-cols-3 gap-3"
+          className="mt-10"
         >
-          {detail.images.map((img: { color: string; label: string }, i: number) => (
-            <div
-              key={i}
-              className={`aspect-[4/3] rounded-xl bg-gradient-to-br ${img.color} flex items-end p-3 text-xs font-medium text-white/90 shadow-sm`}
-            >
-              {img.label}
+          {detail.heroImage ? (
+            <div className="overflow-hidden rounded-2xl border border-border shadow-sm">
+              <img
+                src={detail.heroImage}
+                alt={`${detail.name} hero`}
+                className="aspect-[16/7] w-full object-cover"
+                loading="lazy"
+              />
             </div>
-          ))}
+          ) : (
+            <div className="grid grid-cols-3 gap-3">
+              {detail.images.map((img, i) => (
+                <div
+                  key={i}
+                  className={`aspect-[4/3] rounded-xl bg-gradient-to-br ${img.color} flex items-end p-3 text-xs font-medium text-white/90 shadow-sm`}
+                >
+                  {img.label}
+                </div>
+              ))}
+            </div>
+          )}
         </motion.div>
+
+        {detail.chart && (
+          <motion.section
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.15 }}
+            className="mt-6"
+          >
+            <BarChart chart={detail.chart} />
+          </motion.section>
+        )}
 
         <motion.section
           initial={{ opacity: 0, y: 12 }}
