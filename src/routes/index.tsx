@@ -294,14 +294,6 @@ function FundingHero() {
         >
           {formatted} €
         </motion.h1>
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6, duration: 0.5 }}
-          className="mt-8 max-w-xl text-base text-muted-foreground sm:text-lg"
-        >
-          of your tax money will go to the most voted Berlin Startups
-        </motion.p>
       </div>
     </section>
   );
