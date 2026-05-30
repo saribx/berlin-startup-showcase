@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronUp, LockOpen } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { startups } from "@/data/startups";
 import { BerlinHuntLogo } from "@/components/berlin-hunt-logo";
 import { StartupLogo } from "@/components/startup-logo";
@@ -70,6 +70,8 @@ function Index() {
           <CountdownBadge days={days} hours={hours} minutes={minutes} seconds={seconds} />
         </div>
       </header>
+
+      <FundingHero />
 
       <main className="mx-auto max-w-4xl px-6 py-12">
         <motion.div
@@ -209,6 +211,75 @@ function RankRow({
         </div>
       </Link>
     </motion.li>
+  );
+}
+
+function FundingHero() {
+  const target = 200_000_000;
+  const [value, setValue] = useState(0);
+  const startedRef = useRef(false);
+
+  useEffect(() => {
+    if (startedRef.current) return;
+    startedRef.current = true;
+    const duration = 1400;
+    const start = performance.now();
+    let raf = 0;
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / duration);
+      // easeOutCubic
+      const eased = 1 - Math.pow(1 - t, 3);
+      setValue(Math.floor(eased * target));
+      if (t < 1) raf = requestAnimationFrame(tick);
+      else setValue(target);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+
+  const formatted = value.toLocaleString("de-DE");
+
+  return (
+    <section className="relative flex min-h-[calc(100vh-69px)] items-center justify-center overflow-hidden px-6">
+      <div className="absolute inset-0 -z-10 bg-gradient-to-b from-background via-background to-muted/40" />
+      <div className="absolute inset-x-0 top-1/3 -z-10 mx-auto h-[420px] max-w-3xl bg-primary/10 blur-3xl" />
+      <div className="flex flex-col items-center text-center">
+        <span className="mb-6 text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+          Funding pool · Berlin Hunt 2026
+        </span>
+        <motion.h1
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-6xl font-bold tracking-tight tabular-nums sm:text-8xl md:text-9xl"
+        >
+          {formatted} €
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.6, duration: 0.5 }}
+          className="mt-8 max-w-xl text-base text-muted-foreground sm:text-lg"
+        >
+          gehen an die 50 Berliner Startups, die ihr nach unten wählt.
+        </motion.p>
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.1, duration: 0.6 }}
+          className="mt-16 flex flex-col items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground"
+        >
+          <span>Scroll</span>
+          <motion.span
+            animate={{ y: [0, 6, 0] }}
+            transition={{ repeat: Infinity, duration: 1.6, ease: "easeInOut" }}
+            className="text-lg"
+          >
+            ↓
+          </motion.span>
+        </motion.div>
+      </div>
+    </section>
   );
 }
 
