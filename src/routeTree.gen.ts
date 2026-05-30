@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
+import { Route as CyclesRouteImport } from './routes/cycles'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as StartupIdRouteImport } from './routes/startup.$id'
 
 const HowItWorksRoute = HowItWorksRouteImport.update({
   id: '/how-it-works',
   path: '/how-it-works',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CyclesRoute = CyclesRouteImport.update({
+  id: '/cycles',
+  path: '/cycles',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -31,30 +37,34 @@ const StartupIdRoute = StartupIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/cycles': typeof CyclesRoute
   '/how-it-works': typeof HowItWorksRoute
   '/startup/$id': typeof StartupIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cycles': typeof CyclesRoute
   '/how-it-works': typeof HowItWorksRoute
   '/startup/$id': typeof StartupIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/cycles': typeof CyclesRoute
   '/how-it-works': typeof HowItWorksRoute
   '/startup/$id': typeof StartupIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/how-it-works' | '/startup/$id'
+  fullPaths: '/' | '/cycles' | '/how-it-works' | '/startup/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/how-it-works' | '/startup/$id'
-  id: '__root__' | '/' | '/how-it-works' | '/startup/$id'
+  to: '/' | '/cycles' | '/how-it-works' | '/startup/$id'
+  id: '__root__' | '/' | '/cycles' | '/how-it-works' | '/startup/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CyclesRoute: typeof CyclesRoute
   HowItWorksRoute: typeof HowItWorksRoute
   StartupIdRoute: typeof StartupIdRoute
 }
@@ -66,6 +76,13 @@ declare module '@tanstack/react-router' {
       path: '/how-it-works'
       fullPath: '/how-it-works'
       preLoaderRoute: typeof HowItWorksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cycles': {
+      id: '/cycles'
+      path: '/cycles'
+      fullPath: '/cycles'
+      preLoaderRoute: typeof CyclesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -87,9 +104,20 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CyclesRoute: CyclesRoute,
   HowItWorksRoute: HowItWorksRoute,
   StartupIdRoute: StartupIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
