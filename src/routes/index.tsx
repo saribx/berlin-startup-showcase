@@ -7,6 +7,7 @@ import { startups } from "@/data/startups";
 import { BerlinHuntLogo } from "@/components/berlin-hunt-logo";
 import { StartupLogo } from "@/components/startup-logo";
 import { SiteNav } from "@/components/site-nav";
+import { CountdownBadge } from "@/components/countdown-badge";
 import { useApp } from "@/lib/app-context";
 
 export const Route = createFileRoute("/")({
@@ -21,27 +22,8 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-// Voting closes 3 days, 12 hours from the user's first visit (for the mockup).
-const VOTE_WINDOW_MS = (3 * 24 + 12) * 60 * 60 * 1000;
-
-function useCountdown(targetMs: number) {
-  const [now, setNow] = useState(() => Date.now());
-  useEffect(() => {
-    const i = setInterval(() => setNow(Date.now()), 1000);
-    return () => clearInterval(i);
-  }, []);
-  const remaining = Math.max(0, targetMs - now);
-  const days = Math.floor(remaining / (24 * 60 * 60 * 1000));
-  const hours = Math.floor((remaining / (60 * 60 * 1000)) % 24);
-  const minutes = Math.floor((remaining / (60 * 1000)) % 60);
-  const seconds = Math.floor((remaining / 1000) % 60);
-  return { days, hours, minutes, seconds, remaining };
-}
-
 function Index() {
   const [category, setCategory] = useState<string>("All");
-  const [target] = useState(() => Date.now() + VOTE_WINDOW_MS);
-  const { days, hours, minutes, seconds } = useCountdown(target);
   const { votedIds, toggleVote } = useApp();
 
   const categories = useMemo(() => {
@@ -91,7 +73,7 @@ function Index() {
               Vote now for your favourite startups to get funding.
             </p>
             <div className="sm:ml-auto">
-              <CountdownBadge days={days} hours={hours} minutes={minutes} seconds={seconds} />
+              <CountdownBadge />
             </div>
           </div>
         </motion.div>
@@ -328,53 +310,3 @@ function FundingHero() {
   );
 }
 
-function CountdownBadge({
-  days,
-  hours,
-  minutes,
-  seconds,
-}: {
-  days: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
-}) {
-  const Unit = ({ value, label }: { value: number | string; label: string }) => (
-    <div className="flex flex-col items-center leading-none">
-      <span className="text-sm font-bold tabular-nums text-foreground">
-        {typeof value === "number" ? String(value).padStart(2, "0") : value}
-      </span>
-      <span className="mt-0.5 text-[8px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
-        {label}
-      </span>
-    </div>
-  );
-  const Sep = () => <span className="text-sm font-bold text-border">:</span>;
-  return (
-    <div className="group relative">
-      <div className="absolute -inset-0.5 rounded-2xl bg-gradient-to-r from-primary/40 via-rose-500/30 to-primary/40 opacity-60 blur-sm transition-opacity group-hover:opacity-100" />
-      <div className="relative flex items-center gap-3 rounded-2xl border border-border bg-card px-3.5 py-2">
-        <div className="hidden flex-col items-start leading-none sm:flex">
-          <span className="text-[9px] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-            Voting
-          </span>
-          <span className="mt-0.5 text-[9px] font-semibold uppercase tracking-[0.16em] text-foreground">
-            Ends in
-          </span>
-        </div>
-        <div className="hidden h-7 w-px bg-border sm:block" />
-        <div className="flex items-center gap-2">
-          <Unit value={days} label="Days" />
-          <Sep />
-          <Unit value={hours} label="Hrs" />
-          <Sep />
-          <Unit value={minutes} label="Min" />
-          <span className="hidden sm:contents">
-            <Sep />
-            <Unit value={seconds} label="Sec" />
-          </span>
-        </div>
-      </div>
-    </div>
-  );
-}
