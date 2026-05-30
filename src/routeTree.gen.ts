@@ -10,12 +10,19 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
+import { Route as CyclesRouteImport } from './routes/cycles'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as StartupIdRouteImport } from './routes/startup.$id'
+import { Route as Cycles2025RouteImport } from './routes/cycles.2025'
 
 const HowItWorksRoute = HowItWorksRouteImport.update({
   id: '/how-it-works',
   path: '/how-it-works',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CyclesRoute = CyclesRouteImport.update({
+  id: '/cycles',
+  path: '/cycles',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -28,33 +35,51 @@ const StartupIdRoute = StartupIdRouteImport.update({
   path: '/startup/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Cycles2025Route = Cycles2025RouteImport.update({
+  id: '/2025',
+  path: '/2025',
+  getParentRoute: () => CyclesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/cycles': typeof CyclesRouteWithChildren
   '/how-it-works': typeof HowItWorksRoute
+  '/cycles/2025': typeof Cycles2025Route
   '/startup/$id': typeof StartupIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cycles': typeof CyclesRouteWithChildren
   '/how-it-works': typeof HowItWorksRoute
+  '/cycles/2025': typeof Cycles2025Route
   '/startup/$id': typeof StartupIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/cycles': typeof CyclesRouteWithChildren
   '/how-it-works': typeof HowItWorksRoute
+  '/cycles/2025': typeof Cycles2025Route
   '/startup/$id': typeof StartupIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/how-it-works' | '/startup/$id'
+  fullPaths: '/' | '/cycles' | '/how-it-works' | '/cycles/2025' | '/startup/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/how-it-works' | '/startup/$id'
-  id: '__root__' | '/' | '/how-it-works' | '/startup/$id'
+  to: '/' | '/cycles' | '/how-it-works' | '/cycles/2025' | '/startup/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/cycles'
+    | '/how-it-works'
+    | '/cycles/2025'
+    | '/startup/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CyclesRoute: typeof CyclesRouteWithChildren
   HowItWorksRoute: typeof HowItWorksRoute
   StartupIdRoute: typeof StartupIdRoute
 }
@@ -66,6 +91,13 @@ declare module '@tanstack/react-router' {
       path: '/how-it-works'
       fullPath: '/how-it-works'
       preLoaderRoute: typeof HowItWorksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cycles': {
+      id: '/cycles'
+      path: '/cycles'
+      fullPath: '/cycles'
+      preLoaderRoute: typeof CyclesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -82,11 +114,30 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StartupIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cycles/2025': {
+      id: '/cycles/2025'
+      path: '/2025'
+      fullPath: '/cycles/2025'
+      preLoaderRoute: typeof Cycles2025RouteImport
+      parentRoute: typeof CyclesRoute
+    }
   }
 }
 
+interface CyclesRouteChildren {
+  Cycles2025Route: typeof Cycles2025Route
+}
+
+const CyclesRouteChildren: CyclesRouteChildren = {
+  Cycles2025Route: Cycles2025Route,
+}
+
+const CyclesRouteWithChildren =
+  CyclesRoute._addFileChildren(CyclesRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CyclesRoute: CyclesRouteWithChildren,
   HowItWorksRoute: HowItWorksRoute,
   StartupIdRoute: StartupIdRoute,
 }

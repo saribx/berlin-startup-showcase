@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { BerlinHuntLogo } from "@/components/berlin-hunt-logo";
+import { SiteNav } from "@/components/site-nav";
 
 export const Route = createFileRoute("/how-it-works")({
   head: () => ({
@@ -27,21 +28,7 @@ function HowItWorks() {
               </span>
             </div>
           </Link>
-          <nav className="flex items-center gap-5 text-[13px] font-medium">
-            <Link
-              to="/"
-              activeOptions={{ exact: true }}
-              className="text-foreground/70 transition-colors hover:text-foreground data-[status=active]:text-foreground"
-            >
-              Vote
-            </Link>
-            <Link
-              to="/how-it-works"
-              className="text-foreground/70 transition-colors hover:text-foreground data-[status=active]:text-foreground"
-            >
-              How it works
-            </Link>
-          </nav>
+          <SiteNav />
         </div>
       </header>
 
