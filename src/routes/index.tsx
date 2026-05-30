@@ -5,6 +5,7 @@ import { ChevronUp, LockOpen } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { startups } from "@/data/startups";
 import { BerlinHuntLogo } from "@/components/berlin-hunt-logo";
+import { StartupLogo } from "@/components/startup-logo";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -184,9 +185,13 @@ function RankRow({
         <span className={`w-8 text-right text-sm tabular-nums ${muted ? "text-muted-foreground/70" : "text-muted-foreground"}`}>
           {rank}
         </span>
-        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-muted text-xl">
-          {s.emoji}
-        </span>
+        <StartupLogo
+          domain={s.domain}
+          name={s.name}
+          emoji={s.emoji}
+          size={44}
+          className="border border-border"
+        />
         <div className="min-w-0 flex-1">
           <div className="flex items-baseline gap-2">
             <h3 className="truncate text-[15px] font-semibold text-foreground transition-colors group-hover:text-primary">
