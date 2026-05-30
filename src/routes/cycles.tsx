@@ -49,7 +49,7 @@ function Cycles() {
             icon={<Vote className="h-4 w-4" />}
             amount="200 Mio. €"
             amountLabel="Funding pool"
-            blurb="Die Berliner*innen wählen, welche 50 Startups in diesem Cycle Kapital erhalten. Stimme jetzt mit, bevor das Voting endet."
+            blurb="Berliners are choosing which 50 startups receive capital in this cycle. Cast your vote before the voting phase ends."
             logos={startups.slice(0, 3).map((s) => ({
               name: s.name,
               domain: s.domain,
@@ -66,7 +66,7 @@ function Cycles() {
             icon={<CheckCircle2 className="h-4 w-4" />}
             amount="190 Mio. €"
             amountLabel="Distributed"
-            blurb="Sieh ein, welche 25 Berliner Startups gefördert wurden – inklusive Investmentsumme, Rendite, Wachstum und neuen Jobs."
+            blurb="See which 25 Berlin startups were funded — including investment amounts, ROI, growth and new jobs created."
             logos={CYCLE_2025.slice(0, 3).map((s) => ({
               name: s.name,
               domain: s.domain,
@@ -113,7 +113,10 @@ function CycleCard({
       <div className="relative flex items-start justify-between gap-3">
         <div className={`inline-flex w-fit items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider ${tone}`}>
           {statusTone === "live" && (
-            <span className="inline-flex h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
+            <span className="relative inline-flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+            </span>
           )}
           {icon}
           {status}
@@ -134,17 +137,11 @@ function CycleCard({
       </div>
       <div className="mt-6 text-5xl font-semibold tracking-tight">{year}</div>
 
-      <div className={`relative mt-5 rounded-xl border p-4 ${
-        statusTone === "live"
-          ? "border-emerald-500/30 bg-emerald-500/5"
-          : "border-border bg-muted/40"
-      }`}>
+      <div className="relative mt-5 rounded-xl border border-border bg-muted/40 p-4">
         <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
           {amountLabel}
         </div>
-        <div className={`mt-1 text-3xl font-bold tracking-tight ${
-          statusTone === "live" ? "text-emerald-600 dark:text-emerald-400" : "text-foreground"
-        }`}>
+        <div className="mt-1 text-3xl font-bold tracking-tight text-foreground">
           {amount}
         </div>
       </div>
