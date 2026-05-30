@@ -30,8 +30,9 @@ function StartupPage() {
   const { detail } = Route.useLoaderData();
   const [voted, setVoted] = useState(false);
   const voteCount = detail.votes + (voted ? 1 : 0);
-  const initialComments = detail.comments ?? [];
-  const [comments, setComments] = useState(initialComments);
+  type Comment = NonNullable<StartupDetail["comments"]>[number];
+  const initialComments: Comment[] = detail.comments ?? [];
+  const [comments, setComments] = useState<Comment[]>(initialComments);
   const [draft, setDraft] = useState("");
 
   const submitComment = (e: React.FormEvent) => {
