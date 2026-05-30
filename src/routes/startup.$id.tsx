@@ -210,7 +210,7 @@ function StartupPage() {
             About
           </h2>
           <div className="mt-3 space-y-4 text-[15px] leading-relaxed text-foreground">
-            {detail.description.split("\n\n").map((para, i) => (
+            {detail.description.split("\n\n").map((para: string, i: number) => (
               <p key={i}>{para}</p>
             ))}
           </div>
