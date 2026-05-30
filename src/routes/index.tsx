@@ -205,8 +205,8 @@ function RankRow({
       transition={{ duration: 0.25, delay: Math.min(index * 0.012, 0.3) }}
       className={
         voted
-          ? "relative bg-gradient-to-r from-emerald-500/10 via-emerald-500/[0.06] to-transparent"
-          : ""
+          ? "relative flex items-center gap-3 pr-4 bg-gradient-to-r from-emerald-500/10 via-emerald-500/[0.06] to-transparent"
+          : "relative flex items-center gap-3 pr-4"
       }
     >
       {voted && (
@@ -218,7 +218,7 @@ function RankRow({
       <Link
         to="/startup/$id"
         params={{ id: String(s.id) }}
-        className="group flex items-center gap-4 px-5 py-4 transition-colors hover:bg-muted/50"
+        className="group flex flex-1 min-w-0 items-center gap-4 px-5 py-4 transition-colors hover:bg-muted/50"
       >
         <span className={`w-8 text-right text-sm tabular-nums ${muted ? "text-muted-foreground/70" : "text-muted-foreground"}`}>
           {rank}
@@ -245,34 +245,30 @@ function RankRow({
           </div>
           <p className="truncate text-sm text-muted-foreground">{s.tagline}</p>
         </div>
-        <button
-          type="button"
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            onVote();
-          }}
-          aria-pressed={voted}
-          aria-label={voted ? "Remove vote" : "Upvote"}
-          className={`flex flex-col items-center justify-center rounded-lg border px-3 py-1.5 transition-all ${
-            voted
-              ? "border-emerald-500 bg-emerald-500 text-white shadow-[0_0_0_4px_rgba(16,185,129,0.18)]"
-              : "border-border text-primary hover:border-primary hover:bg-primary/5"
+      </Link>
+      <button
+        type="button"
+        onClick={onVote}
+        aria-pressed={voted}
+        aria-label={voted ? "Remove vote" : "Upvote"}
+        className={`shrink-0 flex flex-col items-center justify-center rounded-lg border px-3 py-1.5 transition-all ${
+          voted
+            ? "border-emerald-500 bg-emerald-500 text-white shadow-[0_0_0_4px_rgba(16,185,129,0.18)]"
+            : "border-border text-primary hover:border-primary hover:bg-primary/5"
+        }`}
+      >
+        <ChevronUp
+          className={`h-4 w-4 ${voted ? "text-white" : "text-primary"}`}
+          strokeWidth={2.5}
+        />
+        <span
+          className={`text-xs font-semibold tabular-nums ${
+            voted ? "text-white" : "text-foreground"
           }`}
         >
-          <ChevronUp
-            className={`h-4 w-4 ${voted ? "text-white" : "text-primary"}`}
-            strokeWidth={2.5}
-          />
-          <span
-            className={`text-xs font-semibold tabular-nums ${
-              voted ? "text-white" : "text-foreground"
-            }`}
-          >
-            {(s.votes + (voted ? 1 : 0)).toLocaleString()}
-          </span>
-        </button>
-      </Link>
+          {(s.votes + (voted ? 1 : 0)).toLocaleString()}
+        </span>
+      </button>
     </motion.li>
   );
 }
