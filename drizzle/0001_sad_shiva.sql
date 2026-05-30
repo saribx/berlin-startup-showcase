@@ -1,0 +1,1 @@
+ALTER TABLE `users` ADD `claimed` integer DEFAULT false NOT NULL;
