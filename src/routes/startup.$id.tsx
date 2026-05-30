@@ -209,9 +209,11 @@ function StartupPage() {
           <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
             About
           </h2>
-          <p className="mt-3 text-[15px] leading-relaxed text-foreground">
-            {detail.description}
-          </p>
+          <div className="mt-3 space-y-4 text-[15px] leading-relaxed text-foreground">
+            {detail.description.split("\n\n").map((para: string, i: number) => (
+              <p key={i}>{para}</p>
+            ))}
+          </div>
         </motion.section>
 
         <motion.section
