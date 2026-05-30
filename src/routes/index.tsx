@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronUp, LockOpen } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Check, ChevronUp, LockOpen } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 import { startups } from "@/data/startups";
 import { BerlinHuntLogo } from "@/components/berlin-hunt-logo";
 import { StartupLogo } from "@/components/startup-logo";
@@ -41,6 +41,27 @@ function Index() {
   const [category, setCategory] = useState<string>("All");
   const [target] = useState(() => Date.now() + VOTE_WINDOW_MS);
   const { days, hours, minutes, seconds } = useCountdown(target);
+  const [voted, setVoted] = useState<Set<number>>(() => new Set());
+
+  // Hydrate voted set from localStorage after mount (avoid SSR mismatch).
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("hs50:voted");
+      if (raw) setVoted(new Set(JSON.parse(raw)));
+    } catch {}
+  }, []);
+
+  const toggleVote = (id: number) => {
+    setVoted((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      try {
+        localStorage.setItem("hs50:voted", JSON.stringify([...next]));
+      } catch {}
+      return next;
+    });
+  };
 
   const categories = useMemo(() => {
     const set = new Set<string>();
@@ -127,7 +148,14 @@ function Index() {
             <ol className="divide-y divide-border">
               <AnimatePresence initial={false}>
                 {topFifty.map((s, i) => (
-                  <RankRow key={s.id} s={s} rank={s.id} index={i} />
+                  <RankRow
+                    key={s.id}
+                    s={s}
+                    rank={s.id}
+                    index={i}
+                    voted={voted.has(s.id)}
+                    onVote={() => toggleVote(s.id)}
+                  />
                 ))}
               </AnimatePresence>
             </ol>
@@ -149,7 +177,15 @@ function Index() {
             <ol className="divide-y divide-border rounded-2xl border border-border bg-card opacity-90">
               <AnimatePresence initial={false}>
                 {belowFifty.map((s, i) => (
-                  <RankRow key={s.id} s={s} rank={s.id} index={i} muted />
+                  <RankRow
+                    key={s.id}
+                    s={s}
+                    rank={s.id}
+                    index={i}
+                    muted
+                    voted={voted.has(s.id)}
+                    onVote={() => toggleVote(s.id)}
+                  />
                 ))}
               </AnimatePresence>
             </ol>
@@ -169,11 +205,15 @@ function RankRow({
   rank,
   index,
   muted,
+  voted,
+  onVote,
 }: {
   s: (typeof startups)[number];
   rank: number;
   index: number;
   muted?: boolean;
+  voted: boolean;
+  onVote: () => void;
 }) {
   return (
     <motion.li
@@ -182,7 +222,18 @@ function RankRow({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.25, delay: Math.min(index * 0.012, 0.3) }}
+      className={
+        voted
+          ? "relative bg-gradient-to-r from-emerald-500/10 via-emerald-500/[0.06] to-transparent"
+          : ""
+      }
     >
+      {voted && (
+        <span
+          className="pointer-events-none absolute inset-y-0 left-0 w-[3px] bg-emerald-500"
+          aria-hidden="true"
+        />
+      )}
       <Link
         to="/startup/$id"
         params={{ id: String(s.id) }}
@@ -204,15 +255,42 @@ function RankRow({
               {s.name}
             </h3>
             <span className="hidden text-xs text-muted-foreground sm:inline">· {s.category}</span>
+            {voted && (
+              <span className="hidden items-center gap-1 rounded-full border border-emerald-500/40 bg-emerald-500/10 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 sm:inline-flex">
+                <Check className="h-2.5 w-2.5" strokeWidth={3} />
+                Voted
+              </span>
+            )}
           </div>
           <p className="truncate text-sm text-muted-foreground">{s.tagline}</p>
         </div>
-        <div className="flex flex-col items-center justify-center rounded-lg border border-border px-3 py-1.5 transition-all group-hover:border-primary group-hover:bg-primary/5">
-          <ChevronUp className="h-4 w-4 text-primary" strokeWidth={2.5} />
-          <span className="text-xs font-semibold tabular-nums text-foreground">
-            {s.votes.toLocaleString()}
+        <button
+          type="button"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onVote();
+          }}
+          aria-pressed={voted}
+          aria-label={voted ? "Remove vote" : "Upvote"}
+          className={`flex flex-col items-center justify-center rounded-lg border px-3 py-1.5 transition-all ${
+            voted
+              ? "border-emerald-500 bg-emerald-500 text-white shadow-[0_0_0_4px_rgba(16,185,129,0.18)]"
+              : "border-border text-primary hover:border-primary hover:bg-primary/5"
+          }`}
+        >
+          <ChevronUp
+            className={`h-4 w-4 ${voted ? "text-white" : "text-primary"}`}
+            strokeWidth={2.5}
+          />
+          <span
+            className={`text-xs font-semibold tabular-nums ${
+              voted ? "text-white" : "text-foreground"
+            }`}
+          >
+            {(s.votes + (voted ? 1 : 0)).toLocaleString()}
           </span>
-        </div>
+        </button>
       </Link>
     </motion.li>
   );
@@ -221,15 +299,14 @@ function RankRow({
 function FundingHero() {
   const target = 200_000_000;
   const [value, setValue] = useState(0);
-  const startedRef = useRef(false);
 
   useEffect(() => {
-    if (startedRef.current) return;
-    startedRef.current = true;
     const duration = 3600;
+    let cancelled = false;
     const start = performance.now();
     let raf = 0;
     const tick = (now: number) => {
+      if (cancelled) return;
       const t = Math.min(1, (now - start) / duration);
       // easeOutExpo — fast start, very slow finish
       const eased = t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
@@ -238,7 +315,10 @@ function FundingHero() {
       else setValue(target);
     };
     raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(raf);
+    };
   }, []);
 
   const formatted = value.toLocaleString("de-DE");
