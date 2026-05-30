@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { getDetail, startups, type Comment, type StartupDetail } from "@/data/startups";
+import { StartupLogo } from "@/components/startup-logo";
 
 export const Route = createFileRoute("/startup/$id")({
   loader: ({ params }): { detail: StartupDetail } => {
@@ -122,9 +123,14 @@ function StartupPage() {
           transition={{ duration: 0.4 }}
           className="flex items-start gap-5"
         >
-          <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-muted text-4xl">
-            {detail.emoji}
-          </div>
+          <StartupLogo
+            domain={detail.domain}
+            name={detail.name}
+            emoji={detail.emoji}
+            size={80}
+            rounded="rounded-2xl"
+            className="border border-border shadow-sm"
+          />
           <div className="flex-1">
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div className="flex flex-wrap items-center gap-2">
