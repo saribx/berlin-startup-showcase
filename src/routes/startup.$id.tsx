@@ -114,7 +114,7 @@ function StartupPage() {
             <ArrowLeft className="h-4 w-4" />
             Back to all startups
           </Link>
-          <span className="text-sm text-muted-foreground">{detail.category}</span>
+          <CountdownBadge />
         </div>
       </header>
 
