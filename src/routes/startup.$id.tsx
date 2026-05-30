@@ -74,7 +74,7 @@ function StartupPage() {
   const totalCount = (list: Comment[]): number =>
     list.reduce((sum, c) => sum + 1 + (c.replies ? totalCount(c.replies) : 0), 0);
 
-  const toggleVote = (id: string) => {
+  const toggleCommentVote = (id: string) => {
     setVotedComments((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
@@ -303,7 +303,7 @@ function StartupPage() {
                   comment={c}
                   depth={0}
                   voted={votedComments}
-                  onVote={toggleVote}
+                  onVote={toggleCommentVote}
                   replyOpen={replyOpen}
                   setReplyOpen={setReplyOpen}
                   replyDraft={replyDraft}
