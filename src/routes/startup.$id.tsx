@@ -310,10 +310,6 @@ function StartupPage() {
 }
 
 function renderBody(body: string) {
-  return _renderBody(body);
-}
-
-function _renderBody(body: string) {
   // highlight @mentions in primary color
   const parts = body.split(/(@[a-zA-Z0-9_]+)/g);
   return parts.map((p, i) =>
@@ -324,6 +320,56 @@ function _renderBody(body: string) {
     ) : (
       <span key={i}>{p}</span>
     ),
+  );
+}
+
+function BarChart({
+  chart,
+}: {
+  chart: { title: string; unit?: string; points: { label: string; value: number }[] };
+}) {
+  const max = Math.max(...chart.points.map((p) => p.value));
+  const latest = chart.points[chart.points.length - 1];
+  const first = chart.points[0];
+  const growth = first.value > 0 ? Math.round(((latest.value - first.value) / first.value) * 100) : 0;
+  return (
+    <div className="rounded-2xl border border-border bg-card p-5">
+      <div className="flex items-end justify-between gap-4">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            {chart.title}
+          </p>
+          <p className="mt-1 text-2xl font-semibold tabular-nums text-foreground">
+            {latest.value}
+            {chart.unit ? <span className="ml-1 text-sm font-medium text-muted-foreground">{chart.unit}</span> : null}
+          </p>
+        </div>
+        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+          ↑ {growth.toLocaleString()}%
+        </span>
+      </div>
+      <div className="mt-5 flex h-32 items-end gap-2">
+        {chart.points.map((p, i) => {
+          const h = Math.max(4, (p.value / max) * 100);
+          const isLast = i === chart.points.length - 1;
+          return (
+            <div key={p.label} className="flex flex-1 flex-col items-center gap-1.5">
+              <motion.div
+                initial={{ height: 0 }}
+                animate={{ height: `${h}%` }}
+                transition={{ duration: 0.6, delay: i * 0.06, ease: "easeOut" }}
+                className={`w-full rounded-t-md ${
+                  isLast
+                    ? "bg-gradient-to-t from-primary to-rose-500"
+                    : "bg-gradient-to-t from-primary/40 to-primary/20"
+                }`}
+              />
+              <span className="text-[10px] font-medium text-muted-foreground">{p.label}</span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 
