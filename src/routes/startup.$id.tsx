@@ -171,7 +171,7 @@ function StartupPage() {
               <img
                 src={detail.heroImage}
                 alt={`${detail.name} hero`}
-                className="aspect-[16/7] w-full object-cover"
+                className="aspect-[21/6] w-full object-cover"
                 loading="lazy"
               />
             </div>
@@ -348,23 +348,31 @@ function BarChart({
           ↑ {growth.toLocaleString()}%
         </span>
       </div>
-      <div className="mt-5 flex h-32 items-end gap-2">
+      <div className="mt-5 flex h-40 items-stretch gap-2">
         {chart.points.map((p, i) => {
           const h = Math.max(4, (p.value / max) * 100);
           const isLast = i === chart.points.length - 1;
           return (
-            <div key={p.label} className="flex flex-1 flex-col items-center gap-1.5">
-              <motion.div
-                initial={{ height: 0 }}
-                animate={{ height: `${h}%` }}
-                transition={{ duration: 0.6, delay: i * 0.06, ease: "easeOut" }}
-                className={`w-full rounded-t-md ${
-                  isLast
-                    ? "bg-gradient-to-t from-primary to-rose-500"
-                    : "bg-gradient-to-t from-primary/40 to-primary/20"
-                }`}
-              />
-              <span className="text-[10px] font-medium text-muted-foreground">{p.label}</span>
+            <div key={p.label} className="flex flex-1 flex-col items-center">
+              <div className="flex w-full flex-1 items-end">
+                <motion.div
+                  initial={{ height: 0 }}
+                  animate={{ height: `${h}%` }}
+                  transition={{ duration: 0.7, delay: i * 0.07, ease: "easeOut" }}
+                  className={`relative w-full rounded-t-md ${
+                    isLast
+                      ? "bg-gradient-to-t from-primary to-rose-500"
+                      : "bg-gradient-to-t from-primary/50 to-primary/25"
+                  }`}
+                >
+                  {isLast && (
+                    <span className="absolute -top-5 left-1/2 -translate-x-1/2 text-[10px] font-semibold tabular-nums text-primary">
+                      {p.value}
+                    </span>
+                  )}
+                </motion.div>
+              </div>
+              <span className="mt-1.5 text-[10px] font-medium text-muted-foreground">{p.label}</span>
             </div>
           );
         })}
