@@ -186,19 +186,19 @@ export const startupDetails: Record<number, StartupDetail> = {
       {
         id: "h1", author: "Lukas Brandt", username: "lukas_brandt", role: "Defense analyst", company: "IISS",
         initials: "LB", avatarGradient: "from-orange-400 to-rose-600", verified: true,
-        time: "2h ago", upvotes: 15140,
+        time: "2d ago", upvotes: 15140,
         body: "Europe finally has a credible sovereign AI defense layer. The pace of Helsing's platform releases is genuinely impressive — Altra in particular is closing the gap with US primes much faster than anyone expected.",
         replies: [
           {
             id: "h1r1", author: "Gundbert Scherf", username: "gundbert", role: "Co-founder & CEO", company: "Helsing",
             initials: "GS", avatarGradient: "from-slate-700 to-slate-900", maker: true, verified: true,
-            time: "1h ago", upvotes: 12760,
+            time: "3d ago", upvotes: 12760,
             body: "@lukas_brandt thanks Lukas. Altra is the result of three years of sensor-fusion work — happy to share more on architecture in the next deep dive.",
           },
           {
             id: "h1r2", author: "Anders Lund", username: "anders_lund", role: "Ex-Saab engineer",
             initials: "AL", avatarGradient: "from-emerald-500 to-teal-700",
-            time: "40m ago", upvotes: 9870,
+            time: "4d ago", upvotes: 9870,
             body: "@gundbert would love a writeup on the autonomy stack specifically — that's the real moat.",
           },
         ],
@@ -206,13 +206,13 @@ export const startupDetails: Record<number, StartupDetail> = {
       {
         id: "h2", author: "Marie Dubois", username: "marie_dubois", role: "Policy advisor", company: "Élysée",
         initials: "MD", avatarGradient: "from-violet-500 to-fuchsia-600", verified: true,
-        time: "6h ago", upvotes: 12080,
+        time: "5d ago", upvotes: 12080,
         body: "Hard to overstate how strategically important this company has become for the EU. Voted.",
         replies: [
           {
             id: "h2r1", author: "Niklas Köhler", username: "niklas_k", role: "VC", company: "General Catalyst",
             initials: "NK", avatarGradient: "from-indigo-500 to-blue-700",
-            time: "5h ago", upvotes: 9530,
+            time: "6d ago", upvotes: 9530,
             body: "@marie_dubois agreed. The next 18 months of European defense procurement will be defined by them.",
           },
         ],
@@ -226,13 +226,13 @@ export const startupDetails: Record<number, StartupDetail> = {
       {
         id: "h4", author: "Jens Hartmann", username: "jens_h", role: "Bundeswehr advisor", company: "BMVg",
         initials: "JH", avatarGradient: "from-stone-600 to-stone-900", verified: true,
-        time: "3h ago", upvotes: 8120,
+        time: "1w ago", upvotes: 8120,
         body: "What Helsing has done for German procurement timelines alone is worth the valuation. Voted.",
         replies: [
           {
             id: "h4r1", author: "Pia Vogel", username: "pia_v", role: "Procurement officer",
             initials: "PV", avatarGradient: "from-rose-400 to-red-600",
-            time: "2h ago", upvotes: 3120,
+            time: "1w ago", upvotes: 3120,
             body: "@jens_h finally a vendor that ships software faster than we can write requirements.",
           },
         ],
@@ -240,25 +240,25 @@ export const startupDetails: Record<number, StartupDetail> = {
       {
         id: "h5", author: "Ravi Suresh", username: "ravi_s", role: "ML researcher", company: "ETH Zürich",
         initials: "RS", avatarGradient: "from-cyan-500 to-blue-700", verified: true,
-        time: "5h ago", upvotes: 6740,
+        time: "2w ago", upvotes: 6740,
         body: "Their sensor fusion paper at NeurIPS was the most technically interesting defense AI work I've read this year.",
       },
       {
         id: "h6", author: "Beatrice Lefèvre", username: "beatrice_l", role: "Defense correspondent", company: "Le Monde",
         initials: "BL", avatarGradient: "from-fuchsia-500 to-pink-700", verified: true,
-        time: "7h ago", upvotes: 5380,
+        time: "2w ago", upvotes: 5380,
         body: "Interviewed the team last week. The discipline around dual-use ethics is more serious than competitors give them credit for.",
         replies: [
           {
             id: "h6r1", author: "Maximilian Reuter", username: "max_reuter", role: "Policy researcher",
             initials: "MR", avatarGradient: "from-indigo-500 to-purple-700",
-            time: "6h ago", upvotes: 1840,
+            time: "10d ago", upvotes: 1840,
             body: "@beatrice_l do you have a link to the piece? Would love to share with my team.",
           },
           {
             id: "h6r2", author: "Beatrice Lefèvre", username: "beatrice_l", role: "Defense correspondent", company: "Le Monde",
             initials: "BL", avatarGradient: "from-fuchsia-500 to-pink-700", verified: true,
-            time: "5h ago", upvotes: 1120,
+            time: "12d ago", upvotes: 1120,
             body: "@max_reuter going live tomorrow morning. Will drop it here.",
           },
         ],
@@ -266,13 +266,13 @@ export const startupDetails: Record<number, StartupDetail> = {
       {
         id: "h7", author: "Karl Becker", username: "karl_b", role: "Reservist & engineer",
         initials: "KB", avatarGradient: "from-emerald-600 to-green-800",
-        time: "10h ago", upvotes: 4210,
+        time: "3w ago", upvotes: 4210,
         body: "Tried out a public demo at ILA. The latency on the targeting overlay was genuinely a generation ahead of anything I've used in service.",
       },
       {
         id: "h8", author: "Léa Moreau", username: "lea_m", role: "Investor", company: "Eurazeo",
         initials: "LM", avatarGradient: "from-orange-500 to-amber-700", verified: true,
-        time: "12h ago", upvotes: 3970,
+        time: "2d ago", upvotes: 3970,
         body: "Cap table is a who's who of European sovereignty money. The signaling effect for the next defense round across the continent is huge.",
       },
       {
@@ -346,19 +346,19 @@ export const startupDetails: Record<number, StartupDetail> = {
       {
         id: "p1", author: "Sina Yıldız", username: "sina_y", role: "Head of CX", company: "Lufthansa Group",
         initials: "SY", avatarGradient: "from-sky-500 to-indigo-600", verified: true,
-        time: "3h ago", upvotes: 14460,
+        time: "3d ago", upvotes: 14460,
         body: "We cut average handling time by 40% on rebooking flows. Voice quality is indistinguishable from a great agent — passengers genuinely don't notice they're not talking to a human.",
         replies: [
           {
             id: "p1r1", author: "Malte Lohscheller", username: "malte_l", role: "Co-founder", company: "Parloa",
             initials: "ML", avatarGradient: "from-violet-500 to-fuchsia-600", maker: true, verified: true,
-            time: "2h ago", upvotes: 11230,
+            time: "4d ago", upvotes: 11230,
             body: "@sina_y thank you Sina — the LH rebooking flow is one of our favorite case studies internally. Excited about what's next on the disruption playbook.",
           },
           {
             id: "p1r2", author: "Daniel Weiss", username: "daniel_w", role: "VP Operations",
             initials: "DW", avatarGradient: "from-teal-500 to-emerald-700",
-            time: "1h ago", upvotes: 9020,
+            time: "5d ago", upvotes: 9020,
             body: "@sina_y any data on customer CSAT vs the previous IVR setup?",
           },
         ],
@@ -378,13 +378,13 @@ export const startupDetails: Record<number, StartupDetail> = {
       {
         id: "p4", author: "Hannah Becker", username: "hannah_b", role: "Customer ops director", company: "Allianz",
         initials: "HB", avatarGradient: "from-blue-500 to-indigo-700", verified: true,
-        time: "4h ago", upvotes: 9410,
+        time: "6d ago", upvotes: 9410,
         body: "Migrated 600+ inbound agents to a Parloa-orchestrated stack. Containment rate jumped from 22% to 61% in the first 8 weeks.",
         replies: [
           {
             id: "p4r1", author: "Stefan Ostrowski", username: "stefan_o", role: "CRO", company: "Parloa",
             initials: "SO", avatarGradient: "from-violet-500 to-fuchsia-600", maker: true, verified: true,
-            time: "3h ago", upvotes: 3210,
+            time: "1w ago", upvotes: 3210,
             body: "@hannah_b love seeing the containment curve from Allianz become the new internal benchmark. Thank you for trusting us early.",
           },
         ],
@@ -392,37 +392,37 @@ export const startupDetails: Record<number, StartupDetail> = {
       {
         id: "p5", author: "Mei Tanaka", username: "mei_t", role: "Conversation designer",
         initials: "MT", avatarGradient: "from-pink-500 to-rose-700",
-        time: "6h ago", upvotes: 7820,
+        time: "1w ago", upvotes: 7820,
         body: "Working in the Agent Studio actually feels closer to writing a screenplay than configuring an IVR. Big leap forward for the craft.",
       },
       {
         id: "p6", author: "Diego Romero", username: "diego_r", role: "VP Engineering", company: "Vodafone",
         initials: "DR", avatarGradient: "from-red-500 to-rose-700", verified: true,
-        time: "8h ago", upvotes: 6940,
+        time: "2w ago", upvotes: 6940,
         body: "Latency is the killer feature. Customers don't perceive a 350ms turn as a bot — anything above 700ms and the spell breaks.",
       },
       {
         id: "p7", author: "Aylin Demir", username: "aylin_d", role: "CX consultant",
         initials: "AD", avatarGradient: "from-emerald-500 to-teal-700",
-        time: "10h ago", upvotes: 5610,
+        time: "2w ago", upvotes: 5610,
         body: "Best part: the agents handle escalations to humans cleanly. No customer ever has to repeat their account number twice.",
       },
       {
         id: "p8", author: "Johan Berg", username: "johan_b", role: "CTO", company: "SAS Group",
         initials: "JB", avatarGradient: "from-sky-600 to-blue-800", verified: true,
-        time: "13h ago", upvotes: 4820,
+        time: "10d ago", upvotes: 4820,
         body: "We replaced 14 vendor contracts with one Parloa deployment. The TCO story alone is staggering.",
       },
       {
         id: "p9", author: "Nora Lindqvist", username: "nora_l", role: "AI policy researcher",
         initials: "NL", avatarGradient: "from-purple-500 to-indigo-700",
-        time: "16h ago", upvotes: 3940,
+        time: "12d ago", upvotes: 3940,
         body: "Their PII handling and EU AI Act readiness documentation are the best I've audited in the conversational AI space.",
       },
       {
         id: "p10", author: "Carlos Mendes", username: "carlos_m", role: "Engineer",
         initials: "CM", avatarGradient: "from-amber-500 to-orange-700",
-        time: "20h ago", upvotes: 3110,
+        time: "3w ago", upvotes: 3110,
         body: "Anyone else notice how seamlessly the agents handle code-switching between German and Turkish? Voice quality on Turkish in particular is wild.",
       },
       {
@@ -485,19 +485,19 @@ export const startupDetails: Record<number, StartupDetail> = {
       {
         id: "t1", author: "Elena Rossi", username: "elena_r", role: "FinTech analyst", company: "Sifted",
         initials: "ER", avatarGradient: "from-emerald-500 to-teal-700", verified: true,
-        time: "5h ago", upvotes: 17520,
+        time: "2d ago", upvotes: 17520,
         body: "The most important consumer fintech to come out of Europe this decade. Distribution is unreal — 8M+ customers across 17 markets with extremely lean unit economics.",
         replies: [
           {
             id: "t1r1", author: "Christian Hecker", username: "christian_h", role: "Co-founder & CEO", company: "Trade Republic",
             initials: "CH", avatarGradient: "from-green-600 to-emerald-800", maker: true, verified: true,
-            time: "4h ago", upvotes: 14970,
+            time: "3d ago", upvotes: 14970,
             body: "@elena_r thanks Elena. We're particularly proud of how the cash account and saveback have brought new investors into the market who never owned an ETF before.",
           },
           {
             id: "t1r2", author: "Jonas Keller", username: "jonas_k", role: "Retail investor",
             initials: "JK", avatarGradient: "from-blue-500 to-indigo-700",
-            time: "3h ago", upvotes: 10380,
+            time: "4d ago", upvotes: 10380,
             body: "@christian_h saveback was the feature that finally got my partner to start investing. Massive deal.",
           },
         ],
@@ -505,7 +505,7 @@ export const startupDetails: Record<number, StartupDetail> = {
       {
         id: "t2", author: "Maximilian Voss", username: "max_v", role: "Portfolio manager",
         initials: "MV", avatarGradient: "from-orange-500 to-rose-600",
-        time: "8h ago", upvotes: 11740,
+        time: "5d ago", upvotes: 11740,
         body: "Custody crossed €100B this year. Quietly one of the largest investment platforms in Europe now.",
       },
       {
@@ -517,13 +517,13 @@ export const startupDetails: Record<number, StartupDetail> = {
       {
         id: "t4", author: "Marta Lewandowska", username: "marta_l", role: "Finance journalist", company: "Handelsblatt",
         initials: "ML", avatarGradient: "from-amber-500 to-orange-700", verified: true,
-        time: "3h ago", upvotes: 12640,
+        time: "6d ago", upvotes: 12640,
         body: "Trade Republic is doing for European retail investing what N26 tried to do for banking — except they're actually pulling it off across all 17 markets simultaneously.",
         replies: [
           {
             id: "t4r1", author: "Felix Hartmann", username: "felix_h", role: "Reader",
             initials: "FH", avatarGradient: "from-slate-500 to-slate-700",
-            time: "2h ago", upvotes: 4120,
+            time: "1w ago", upvotes: 4120,
             body: "@marta_l the Italian launch in particular has been textbook execution. Bullish.",
           },
         ],
@@ -531,43 +531,43 @@ export const startupDetails: Record<number, StartupDetail> = {
       {
         id: "t5", author: "Sofie Andersen", username: "sofie_a", role: "Retail investor",
         initials: "SA", avatarGradient: "from-pink-500 to-rose-700",
-        time: "5h ago", upvotes: 9870,
+        time: "1w ago", upvotes: 9870,
         body: "Started my first ETF savings plan at 22 because of this app. Three years later it's the foundation of my long-term portfolio.",
       },
       {
         id: "t6", author: "Ricardo Silva", username: "ricardo_s", role: "Bank engineer", company: "Santander",
         initials: "RS", avatarGradient: "from-red-500 to-rose-700", verified: true,
-        time: "7h ago", upvotes: 8430,
+        time: "2w ago", upvotes: 8430,
         body: "Their settlement infrastructure is genuinely impressive. We've benchmarked it internally — order routing latency is best-in-class in Europe.",
       },
       {
         id: "t7", author: "Hanna Virtanen", username: "hanna_v", role: "Designer",
         initials: "HV", avatarGradient: "from-violet-500 to-purple-700",
-        time: "9h ago", upvotes: 7290,
+        time: "2w ago", upvotes: 7290,
         body: "The Saveback UX is one of the cleanest financial product flows I've ever seen. Should be a case study in any product design course.",
       },
       {
         id: "t8", author: "Alexander Volkov", username: "alex_v", role: "ETF strategist", company: "iShares",
         initials: "AV", avatarGradient: "from-blue-500 to-indigo-700", verified: true,
-        time: "11h ago", upvotes: 6480,
+        time: "10d ago", upvotes: 6480,
         body: "TR savings plans now drive a meaningful chunk of European retail ETF inflows. Quietly one of the biggest distribution shifts of the decade.",
       },
       {
         id: "t9", author: "Yara Habib", username: "yara_h", role: "Compliance officer",
         initials: "YH", avatarGradient: "from-teal-500 to-emerald-700",
-        time: "14h ago", upvotes: 5310,
+        time: "12d ago", upvotes: 5310,
         body: "Their KYC flow now processes a new account in under 4 minutes. Operationally that's where the unit economics really live.",
       },
       {
         id: "t10", author: "Mikael Lundberg", username: "mikael_l", role: "Financial advisor",
         initials: "MK", avatarGradient: "from-emerald-600 to-teal-800",
-        time: "17h ago", upvotes: 4870,
+        time: "3w ago", upvotes: 4870,
         body: "Half of my clients under 35 use Trade Republic as their primary investment account. The behavioral shift is irreversible.",
       },
       {
         id: "t11", author: "Chiara Greco", username: "chiara_g", role: "Italian customer",
         initials: "CG", avatarGradient: "from-rose-500 to-red-700",
-        time: "20h ago", upvotes: 4120,
+        time: "2d ago", upvotes: 4120,
         body: "Finally an investment app that doesn't treat Italians like an afterthought. Local IBAN, native language support, the works.",
       },
       {
