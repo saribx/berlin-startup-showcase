@@ -138,7 +138,7 @@ function Cycle2025() {
 
         {/* KPI strip */}
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
-          <StatCard icon={<Wallet className="h-4 w-4" />} label="Total invested" value={`${CYCLE_2025_TOTAL_M} M €`} />
+          <StatCard icon={<Wallet className="h-4 w-4" />} label="Total invested" value={`€${CYCLE_2025_TOTAL_M}M`} />
           <StatCard icon={<Sparkles className="h-4 w-4" />} label="Fund ROI" value={`+${CYCLE_2025_ROI_PCT}%`} accent />
           <StatCard icon={<TrendingUp className="h-4 w-4" />} label="Avg. growth YoY" value={`+${CYCLE_2025_GROWTH_PCT}%`} accent />
           <StatCard icon={<Briefcase className="h-4 w-4" />} label="New jobs" value={CYCLE_2025_NEW_JOBS.toLocaleString("en-US")} />
