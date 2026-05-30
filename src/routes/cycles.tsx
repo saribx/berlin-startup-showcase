@@ -40,20 +40,24 @@ function Cycles() {
 
         <div className="mt-10 grid gap-5 sm:grid-cols-2">
           <CycleCard
-            to="/cycles/2025"
-            year="2025"
-            status="Completed"
-            statusTone="muted"
-            icon={<CheckCircle2 className="h-4 w-4" />}
-            blurb="190 M € distributed across 25 winning startups."
-          />
-          <CycleCard
-            to="/"
             year="2026"
             status="Voting phase"
             statusTone="live"
             icon={<Vote className="h-4 w-4" />}
             blurb="200 M € on the line. Vote now for the top 50."
+            link={
+              <Link to="/" className="absolute inset-0" aria-label="Open cycle 2026" />
+            }
+          />
+          <CycleCard
+            year="2025"
+            status="Completed"
+            statusTone="muted"
+            icon={<CheckCircle2 className="h-4 w-4" />}
+            blurb="190 M € distributed across 25 winning startups."
+            link={
+              <Link to="/cycles/2025" className="absolute inset-0" aria-label="Open cycle 2025" />
+            }
           />
         </div>
       </main>
@@ -62,29 +66,27 @@ function Cycles() {
 }
 
 function CycleCard({
-  to,
   year,
   status,
   statusTone,
   icon,
   blurb,
+  link,
 }: {
-  to: string;
   year: string;
   status: string;
   statusTone: "muted" | "live";
   icon: React.ReactNode;
   blurb: string;
+  link: React.ReactNode;
 }) {
   const tone =
     statusTone === "live"
       ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400"
       : "border-border bg-muted text-muted-foreground";
   return (
-    <Link
-      to={to}
-      className="group relative flex flex-col rounded-2xl border border-border bg-card p-6 transition-all hover:-translate-y-0.5 hover:border-foreground/30 hover:shadow-lg"
-    >
+    <div className="group relative flex flex-col rounded-2xl border border-border bg-card p-6 transition-all hover:-translate-y-0.5 hover:border-foreground/30 hover:shadow-lg">
+      {link}
       <div className={`inline-flex w-fit items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider ${tone}`}>
         {statusTone === "live" && (
           <span className="inline-flex h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
@@ -94,10 +96,10 @@ function CycleCard({
       </div>
       <div className="mt-6 text-5xl font-semibold tracking-tight">{year}</div>
       <p className="mt-2 text-sm text-muted-foreground">{blurb}</p>
-      <div className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-foreground/80 transition-colors group-hover:text-foreground">
+      <div className="relative mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-foreground/80 transition-colors group-hover:text-foreground">
         View
         <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
       </div>
-    </Link>
+    </div>
   );
 }
