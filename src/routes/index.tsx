@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronUp, Lock, Timer } from "lucide-react";
-import { Fragment, useEffect, useMemo, useState } from "react";
+import { ChevronUp, Lock } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 import { startups } from "@/data/startups";
 import { BerlinHuntLogo } from "@/components/berlin-hunt-logo";
 
@@ -50,6 +50,8 @@ function Index() {
     () => (category === "All" ? startups : startups.filter((s) => s.category === category)),
     [category],
   );
+  const topFifty = filtered.filter((s) => s.id <= 50);
+  const belowFifty = filtered.filter((s) => s.id > 50);
 
   return (
     <div className="min-h-screen bg-background">
@@ -60,26 +62,11 @@ function Index() {
             <div className="flex flex-col leading-none">
               <span className="text-[15px] font-semibold tracking-tight">Berlin Hunt</span>
               <span className="mt-0.5 text-[10px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
-                Funding round 03
+                Funding cycle 2026
               </span>
             </div>
           </div>
-          <div className="flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 shadow-sm">
-            <Timer className="h-3.5 w-3.5 text-primary" />
-            <span className="hidden text-[11px] font-medium uppercase tracking-wider text-muted-foreground sm:inline">
-              Voting ends in
-            </span>
-            <span className="flex items-baseline gap-1 text-sm font-semibold tabular-nums text-foreground">
-              <span>{days}</span>
-              <span className="text-[10px] font-medium uppercase text-muted-foreground">d</span>
-              <span>{String(hours).padStart(2, "0")}</span>
-              <span className="text-[10px] font-medium uppercase text-muted-foreground">h</span>
-              <span className="hidden sm:inline">{String(minutes).padStart(2, "0")}</span>
-              <span className="hidden text-[10px] font-medium uppercase text-muted-foreground sm:inline">m</span>
-              <span className="hidden md:inline">{String(seconds).padStart(2, "0")}</span>
-              <span className="hidden text-[10px] font-medium uppercase text-muted-foreground md:inline">s</span>
-            </span>
-          </div>
+          <CountdownBadge days={days} hours={hours} minutes={minutes} seconds={seconds} />
         </div>
       </header>
 
@@ -117,84 +104,160 @@ function Index() {
           })}
         </div>
 
-        <ol className="divide-y divide-border rounded-2xl border border-border bg-card">
-          <AnimatePresence initial={false}>
-          {filtered.map((s, i) => (
-            <Fragment key={s.id}>
-            <motion.li
-              layout
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.25, delay: Math.min(i * 0.012, 0.3) }}
-            >
-              <Link
-                to="/startup/$id"
-                params={{ id: String(s.id) }}
-                className="group flex items-center gap-4 px-5 py-4 transition-colors hover:bg-muted/50"
-              >
-                <span className="w-6 text-right text-sm tabular-nums text-muted-foreground">
-                  {i + 1}
+        {topFifty.length > 0 && (
+          <div className="relative rounded-2xl border-2 border-emerald-500/70 bg-card shadow-[0_0_0_4px_rgba(16,185,129,0.08)]">
+            <div className="flex items-center justify-between gap-3 border-b border-emerald-500/30 bg-emerald-500/[0.06] px-5 py-2.5">
+              <div className="flex items-center gap-2">
+                <span className="inline-flex h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-emerald-700 dark:text-emerald-400">
+                  Funding zone · Top 50
                 </span>
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-muted text-xl">
-                  {s.emoji}
+              </div>
+              <span className="text-[11px] font-medium text-emerald-700/80 dark:text-emerald-400/80">
+                Eligible for this cycle
+              </span>
+            </div>
+            <ol className="divide-y divide-border">
+              <AnimatePresence initial={false}>
+                {topFifty.map((s, i) => (
+                  <RankRow key={s.id} s={s} rank={s.id} index={i} />
+                ))}
+              </AnimatePresence>
+            </ol>
+          </div>
+        )}
+
+        {belowFifty.length > 0 && (
+          <>
+            <div className="my-6 flex items-center gap-3">
+              <div className="h-px flex-1 bg-gradient-to-r from-transparent via-border to-border" />
+              <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5">
+                <Lock className="h-3.5 w-3.5 text-muted-foreground" strokeWidth={2.5} />
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  Funding cutoff
                 </span>
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-baseline gap-2">
-                    <h3 className="truncate text-[15px] font-semibold text-foreground transition-colors group-hover:text-primary">
-                      {s.name}
-                    </h3>
-                    <span className="hidden text-xs text-muted-foreground sm:inline">
-                      · {s.category}
-                    </span>
-                  </div>
-                  <p className="truncate text-sm text-muted-foreground">{s.tagline}</p>
-                </div>
-                <div className="flex flex-col items-center justify-center rounded-lg border border-border px-3 py-1.5 transition-all group-hover:border-primary group-hover:bg-primary/5">
-                  <ChevronUp className="h-4 w-4 text-primary" strokeWidth={2.5} />
-                  <span className="text-xs font-semibold tabular-nums text-foreground">
-                    {s.votes.toLocaleString()}
-                  </span>
-                </div>
-              </Link>
-            </motion.li>
-            {category === "All" && s.id === 50 && (
-              <motion.li
-                layout
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.3 }}
-                className="relative bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 px-5 py-4"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary">
-                    <Lock className="h-4 w-4" strokeWidth={2.5} />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="text-[13px] font-semibold uppercase tracking-wider text-primary">
-                      Funding cutoff — Top 50
-                    </p>
-                    <p className="text-xs text-muted-foreground">
-                      Only startups ranked above this line will be considered for funding this cycle.
-                    </p>
-                  </div>
-                  <span className="hidden shrink-0 rounded-full border border-primary/30 bg-background px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary sm:inline-block">
-                    Below the line
-                  </span>
-                </div>
-                <div className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
-                <div className="pointer-events-none absolute inset-x-0 -bottom-px h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
-              </motion.li>
-            )}
-            </Fragment>
-          ))}
-          </AnimatePresence>
-        </ol>
+              </div>
+              <div className="h-px flex-1 bg-gradient-to-l from-transparent via-border to-border" />
+            </div>
+            <ol className="divide-y divide-border rounded-2xl border border-border bg-card opacity-90">
+              <AnimatePresence initial={false}>
+                {belowFifty.map((s, i) => (
+                  <RankRow key={s.id} s={s} rank={s.id} index={i} muted />
+                ))}
+              </AnimatePresence>
+            </ol>
+          </>
+        )}
 
         <p className="mt-10 text-center text-sm text-muted-foreground">
           Made with ♥ in Berlin.
         </p>
       </main>
+    </div>
+  );
+}
+
+function RankRow({
+  s,
+  rank,
+  index,
+  muted,
+}: {
+  s: (typeof startups)[number];
+  rank: number;
+  index: number;
+  muted?: boolean;
+}) {
+  return (
+    <motion.li
+      layout
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.25, delay: Math.min(index * 0.012, 0.3) }}
+    >
+      <Link
+        to="/startup/$id"
+        params={{ id: String(s.id) }}
+        className="group flex items-center gap-4 px-5 py-4 transition-colors hover:bg-muted/50"
+      >
+        <span className={`w-8 text-right text-sm tabular-nums ${muted ? "text-muted-foreground/70" : "text-muted-foreground"}`}>
+          {rank}
+        </span>
+        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-muted text-xl">
+          {s.emoji}
+        </span>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-baseline gap-2">
+            <h3 className="truncate text-[15px] font-semibold text-foreground transition-colors group-hover:text-primary">
+              {s.name}
+            </h3>
+            <span className="hidden text-xs text-muted-foreground sm:inline">· {s.category}</span>
+          </div>
+          <p className="truncate text-sm text-muted-foreground">{s.tagline}</p>
+        </div>
+        <div className="flex flex-col items-center justify-center rounded-lg border border-border px-3 py-1.5 transition-all group-hover:border-primary group-hover:bg-primary/5">
+          <ChevronUp className="h-4 w-4 text-primary" strokeWidth={2.5} />
+          <span className="text-xs font-semibold tabular-nums text-foreground">
+            {s.votes.toLocaleString()}
+          </span>
+        </div>
+      </Link>
+    </motion.li>
+  );
+}
+
+function CountdownBadge({
+  days,
+  hours,
+  minutes,
+  seconds,
+}: {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+}) {
+  const Unit = ({ value, label }: { value: number | string; label: string }) => (
+    <div className="flex flex-col items-center leading-none">
+      <span className="text-sm font-bold tabular-nums text-foreground">
+        {typeof value === "number" ? String(value).padStart(2, "0") : value}
+      </span>
+      <span className="mt-0.5 text-[8px] font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+        {label}
+      </span>
+    </div>
+  );
+  const Sep = () => <span className="text-sm font-bold text-border">:</span>;
+  return (
+    <div className="group relative">
+      <div className="absolute -inset-0.5 rounded-2xl bg-gradient-to-r from-primary/40 via-rose-500/30 to-primary/40 opacity-60 blur-sm transition-opacity group-hover:opacity-100" />
+      <div className="relative flex items-center gap-3 rounded-2xl border border-border bg-card px-3.5 py-2">
+        <div className="hidden flex-col items-start leading-none sm:flex">
+          <span className="text-[8px] font-bold uppercase tracking-[0.16em] text-primary">
+            Live
+          </span>
+          <span className="mt-0.5 text-[9px] font-medium uppercase tracking-wider text-muted-foreground">
+            Ends in
+          </span>
+        </div>
+        <div className="hidden h-7 w-px bg-border sm:block" />
+        <div className="flex items-center gap-2">
+          <Unit value={days} label="Days" />
+          <Sep />
+          <Unit value={hours} label="Hrs" />
+          <Sep />
+          <Unit value={minutes} label="Min" />
+          <span className="hidden sm:contents">
+            <Sep />
+            <Unit value={seconds} label="Sec" />
+          </span>
+        </div>
+        <span className="absolute -top-1 -right-1 flex h-2 w-2">
+          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
+          <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+        </span>
+      </div>
     </div>
   );
 }
