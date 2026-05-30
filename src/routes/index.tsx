@@ -222,13 +222,13 @@ function FundingHero() {
   useEffect(() => {
     if (startedRef.current) return;
     startedRef.current = true;
-    const duration = 1400;
+    const duration = 2200;
     const start = performance.now();
     let raf = 0;
     const tick = (now: number) => {
       const t = Math.min(1, (now - start) / duration);
-      // easeOutCubic
-      const eased = 1 - Math.pow(1 - t, 3);
+      // easeOutQuint — fast start, slow finish
+      const eased = 1 - Math.pow(1 - t, 5);
       setValue(Math.floor(eased * target));
       if (t < 1) raf = requestAnimationFrame(tick);
       else setValue(target);
