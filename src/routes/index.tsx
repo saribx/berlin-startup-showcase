@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronUp, Lock } from "lucide-react";
+import { ChevronUp, LockOpen } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { startups } from "@/data/startups";
 import { BerlinHuntLogo } from "@/components/berlin-hunt-logo";
@@ -132,7 +132,7 @@ function Index() {
             <div className="my-6 flex items-center gap-3">
               <div className="h-px flex-1 bg-gradient-to-r from-transparent via-border to-border" />
               <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5">
-                <Lock className="h-3.5 w-3.5 text-muted-foreground" strokeWidth={2.5} />
+                <LockOpen className="h-3.5 w-3.5 text-muted-foreground" strokeWidth={2.5} />
                 <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                   Funding cutoff
                 </span>
@@ -150,7 +150,7 @@ function Index() {
         )}
 
         <p className="mt-10 text-center text-sm text-muted-foreground">
-          Made with ♥ in Berlin.
+          Berlin auf die 1.
         </p>
       </main>
     </div>
