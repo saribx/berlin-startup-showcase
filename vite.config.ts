@@ -12,4 +12,11 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  // Allow access through cloudflared quick tunnels (random *.trycloudflare.com host).
+  // Dev-only; safe to remove if you stop using the public tunnel.
+  vite: {
+    server: {
+      allowedHosts: [".trycloudflare.com"],
+    },
+  },
 });

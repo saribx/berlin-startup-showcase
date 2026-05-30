@@ -16,6 +16,12 @@ dist-ssr
 .nitro
 *.local
 
+# Local SQLite databases (per-worktree)
+data/
+*.db
+*.db-wal
+*.db-shm
+
 # Wrangler / Cloudflare
 .wrangler/
 .dev.vars

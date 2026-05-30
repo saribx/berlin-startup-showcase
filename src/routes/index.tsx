@@ -1,22 +1,30 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Link } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
-import { Check, ChevronUp, LockOpen } from "lucide-react";
+import { Check, LockOpen } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
-import { startups } from "@/data/startups";
+
 import { BerlinHuntLogo } from "@/components/berlin-hunt-logo";
-import { StartupLogo } from "@/components/startup-logo";
-import { SiteNav } from "@/components/site-nav";
 import { CountdownBadge } from "@/components/countdown-badge";
-import { useApp } from "@/lib/app-context";
+import { SiteNav } from "@/components/site-nav";
+import { StartupLogo } from "@/components/startup-logo";
+import { VoteBudgetPill } from "@/components/vote-budget-pill";
+import { VoteButton } from "@/components/vote-button";
+import { startups } from "@/data/startups";
+import { useVotes } from "@/lib/vote-context";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Berlin50 — Vote for the top 50 Berlin Startups" },
-      { name: "description", content: "Vote for the 50 Berlin startups that should receive funding this cycle." },
+      {
+        name: "description",
+        content: "Vote for the 50 Berlin startups that should receive funding this cycle.",
+      },
       { property: "og:title", content: "Berlin50 — Vote for the top 50 Berlin Startups" },
-      { property: "og:description", content: "Vote for the 50 Berlin startups that should receive funding this cycle." },
+      {
+        property: "og:description",
+        content: "Vote for the 50 Berlin startups that should receive funding this cycle.",
+      },
     ],
   }),
   component: Index,
@@ -24,7 +32,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const [category, setCategory] = useState<string>("All");
-  const { votedIds, toggleVote } = useApp();
+  const { votedIds, toggleVote, voteCount, budgetRemaining } = useVotes();
 
   const categories = useMemo(() => {
     const set = new Set<string>();
@@ -38,6 +46,8 @@ function Index() {
   );
   const topFifty = filtered.filter((s) => s.id <= 50);
   const belowFifty = filtered.filter((s) => s.id > 50);
+
+  const budgetExhausted = budgetRemaining === 0;
 
   return (
     <div className="min-h-screen bg-background">
@@ -72,7 +82,8 @@ function Index() {
             <p className="text-base text-muted-foreground">
               Vote now for your favourite startups to get funding.
             </p>
-            <div className="sm:ml-auto">
+            <div className="flex items-center gap-3 sm:ml-auto">
+              <VoteBudgetPill />
               <CountdownBadge />
             </div>
           </div>
@@ -119,6 +130,8 @@ function Index() {
                     rank={s.id}
                     index={i}
                     voted={votedIds.has(s.id)}
+                    count={voteCount(s.id, s.votes)}
+                    disabled={budgetExhausted}
                     onVote={() => toggleVote(s.id)}
                   />
                 ))}
@@ -149,6 +162,8 @@ function Index() {
                     index={i}
                     muted
                     voted={votedIds.has(s.id)}
+                    count={voteCount(s.id, s.votes)}
+                    disabled={budgetExhausted}
                     onVote={() => toggleVote(s.id)}
                   />
                 ))}
@@ -157,9 +172,7 @@ function Index() {
           </>
         )}
 
-        <p className="mt-10 text-center text-sm text-muted-foreground">
-          Berlin auf die 1.
-        </p>
+        <p className="mt-10 text-center text-sm text-muted-foreground">Berlin auf die 1.</p>
       </main>
     </div>
   );
@@ -171,6 +184,8 @@ function RankRow({
   index,
   muted,
   voted,
+  count,
+  disabled,
   onVote,
 }: {
   s: (typeof startups)[number];
@@ -178,6 +193,8 @@ function RankRow({
   index: number;
   muted?: boolean;
   voted: boolean;
+  count: number;
+  disabled: boolean;
   onVote: () => void;
 }) {
   return (
@@ -204,7 +221,9 @@ function RankRow({
         params={{ id: String(s.id) }}
         className="group flex flex-1 min-w-0 items-center gap-4 px-5 py-4 transition-colors hover:bg-muted/50"
       >
-        <span className={`w-8 text-right text-sm tabular-nums ${muted ? "text-muted-foreground/70" : "text-muted-foreground"}`}>
+        <span
+          className={`w-8 text-right text-sm tabular-nums ${muted ? "text-muted-foreground/70" : "text-muted-foreground"}`}
+        >
           {rank}
         </span>
         <StartupLogo
@@ -230,29 +249,7 @@ function RankRow({
           <p className="truncate text-sm text-muted-foreground">{s.tagline}</p>
         </div>
       </Link>
-      <button
-        type="button"
-        onClick={onVote}
-        aria-pressed={voted}
-        aria-label={voted ? "Remove vote" : "Upvote"}
-        className={`shrink-0 flex flex-col items-center justify-center rounded-lg border px-3 py-1.5 transition-all ${
-          voted
-            ? "border-emerald-500 bg-emerald-500 text-white shadow-[0_0_0_4px_rgba(16,185,129,0.18)]"
-            : "border-border text-primary hover:border-primary hover:bg-primary/5"
-        }`}
-      >
-        <ChevronUp
-          className={`h-4 w-4 ${voted ? "text-white" : "text-primary"}`}
-          strokeWidth={2.5}
-        />
-        <span
-          className={`text-xs font-semibold tabular-nums ${
-            voted ? "text-white" : "text-foreground"
-          }`}
-        >
-          {(s.votes + (voted ? 1 : 0)).toLocaleString()}
-        </span>
-      </button>
+      <VoteButton variant="row" count={count} voted={voted} onToggle={onVote} disabled={disabled} />
     </motion.li>
   );
 }
@@ -309,4 +306,3 @@ function FundingHero() {
     </section>
   );
 }
-

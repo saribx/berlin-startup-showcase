@@ -19,8 +19,9 @@ import process from "node:process";
 export function getServerConfig() {
   return {
     nodeEnv: process.env.NODE_ENV,
-    // Add server-only values here, e.g.:
-    //   databaseUrl: process.env.DATABASE_URL,
-    //   stripeSecretKey: process.env.STRIPE_SECRET_KEY,
+    // Local SQLite file (or file: URL). Per-worktree DBs override this via env.
+    databaseUrl: process.env.DATABASE_URL ?? "file:./data/app.db",
+    // httpOnly session cookie name (see session.server.ts).
+    sessionCookieName: "b50_sid",
   };
 }
