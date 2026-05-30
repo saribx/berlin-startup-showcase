@@ -5,6 +5,7 @@ export interface Startup {
   votes: number;
   category: string;
   emoji: string;
+  domain?: string;
 }
 
 export interface Comment {
