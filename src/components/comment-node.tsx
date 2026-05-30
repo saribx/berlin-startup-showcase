@@ -9,11 +9,10 @@ import {
   Share2,
 } from "lucide-react";
 
-import type { Comment } from "@/data/startups";
+import type { CommentDTO } from "@/lib/comments.server";
 
-// Extracted verbatim from startup.$id.tsx so Track B owns the comment tree.
-// SPINE STUB: same local-state behavior. Track B feeds it server data
-// (displayUpvotes / votedByMe) and wires votes/replies to comments.server.ts.
+// Track B — comment tree node. Reads server-computed upvotes + votedByMe
+// (kept fresh by discussion-section's optimistic mutations).
 
 export function renderBody(body: string) {
   // highlight @mentions in primary color
@@ -30,9 +29,8 @@ export function renderBody(body: string) {
 }
 
 export interface CommentNodeProps {
-  comment: Comment;
+  comment: CommentDTO;
   depth: number;
-  voted: Record<string, boolean>;
   onVote: (id: string) => void;
   replyOpen: Record<string, boolean>;
   setReplyOpen: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
@@ -44,7 +42,6 @@ export interface CommentNodeProps {
 export function CommentNode({
   comment,
   depth,
-  voted,
   onVote,
   replyOpen,
   setReplyOpen,
@@ -52,8 +49,8 @@ export function CommentNode({
   setReplyDraft,
   onSubmitReply,
 }: CommentNodeProps) {
-  const isVoted = !!voted[comment.id];
-  const displayUpvotes = comment.upvotes + (isVoted ? 1 : 0);
+  const isVoted = comment.votedByMe;
+  const displayUpvotes = comment.upvotes;
   const open = !!replyOpen[comment.id];
 
   return (
@@ -169,7 +166,6 @@ export function CommentNode({
                 <CommentNode
                   comment={r}
                   depth={depth + 1}
-                  voted={voted}
                   onVote={onVote}
                   replyOpen={replyOpen}
                   setReplyOpen={setReplyOpen}

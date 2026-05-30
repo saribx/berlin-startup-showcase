@@ -1,14 +1,66 @@
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { MessageCircle, Send } from "lucide-react";
 import { useState } from "react";
 
 import { CommentNode } from "@/components/comment-node";
 import type { Comment } from "@/data/startups";
+import {
+  addComment,
+  listComments,
+  toggleCommentVote,
+  type CommentDTO,
+} from "@/lib/comments.server";
 
-// Extracted from startup.$id.tsx so Track B owns the discussion. SPINE STUB:
-// keeps the current local-state behavior (new comments live only in React
-// state). Track B replaces the state with useQuery(listComments) +
-// useMutation(addComment / toggleCommentVote) so it persists.
+// Track B — Comments. Server-backed (comments.server.ts) via react-query.
+// initialData maps the seed comments so SSR shows content immediately, then the
+// client refetches the real tree (live upvote counts + votedByMe).
+
+const qk = (startupId: number) => ["comments", startupId] as const;
+
+function mapStatic(c: Comment): CommentDTO {
+  return {
+    id: c.id,
+    author: c.author,
+    username: c.username,
+    role: c.role ?? null,
+    company: c.company ?? null,
+    initials: c.initials,
+    avatarGradient: c.avatarGradient,
+    verified: !!c.verified,
+    maker: !!c.maker,
+    time: c.time,
+    body: c.body,
+    upvotes: c.upvotes,
+    votedByMe: false,
+    replies: (c.replies ?? []).map(mapStatic),
+  };
+}
+
+function updateInTree(
+  list: CommentDTO[],
+  id: string,
+  fn: (c: CommentDTO) => CommentDTO,
+): CommentDTO[] {
+  return list.map((c) =>
+    c.id === id ? fn(c) : c.replies.length ? { ...c, replies: updateInTree(c.replies, id, fn) } : c,
+  );
+}
+
+function insertNode(list: CommentDTO[], parentId: string | null, node: CommentDTO): CommentDTO[] {
+  if (!parentId) return [node, ...list];
+  return list.map((c) =>
+    c.id === parentId
+      ? { ...c, replies: [...c.replies, node] }
+      : c.replies.length
+        ? { ...c, replies: insertNode(c.replies, parentId, node) }
+        : c,
+  );
+}
+
+function countTree(list: CommentDTO[]): number {
+  return list.reduce((sum, c) => sum + 1 + countTree(c.replies), 0);
+}
 
 export function DiscussionSection({
   startupId,
@@ -17,61 +69,68 @@ export function DiscussionSection({
   startupId: number;
   initialComments: Comment[];
 }) {
-  const [comments, setComments] = useState<Comment[]>(initialComments);
+  const qc = useQueryClient();
+  const { data: comments = [] } = useQuery({
+    queryKey: qk(startupId),
+    queryFn: () => listComments({ data: { startupId } }),
+    initialData: () => initialComments.map(mapStatic),
+  });
+
   const [draft, setDraft] = useState("");
-  const [votedComments, setVotedComments] = useState<Record<string, boolean>>({});
   const [replyOpen, setReplyOpen] = useState<Record<string, boolean>>({});
   const [replyDraft, setReplyDraft] = useState<Record<string, string>>({});
+
+  const addMut = useMutation({
+    mutationFn: (vars: { parentId: string | null; body: string }) =>
+      addComment({ data: { startupId, parentId: vars.parentId ?? undefined, body: vars.body } }),
+    onSuccess: (created, vars) => {
+      qc.setQueryData<CommentDTO[]>(qk(startupId), (prev = []) =>
+        insertNode(prev, vars.parentId, created),
+      );
+    },
+  });
+
+  const voteMut = useMutation({
+    mutationFn: (commentId: string) => toggleCommentVote({ data: { commentId } }),
+    onMutate: async (commentId) => {
+      await qc.cancelQueries({ queryKey: qk(startupId) });
+      const prev = qc.getQueryData<CommentDTO[]>(qk(startupId)) ?? [];
+      qc.setQueryData<CommentDTO[]>(
+        qk(startupId),
+        updateInTree(prev, commentId, (c) => ({
+          ...c,
+          votedByMe: !c.votedByMe,
+          upvotes: c.upvotes + (c.votedByMe ? -1 : 1),
+        })),
+      );
+      return { prev };
+    },
+    onError: (_err, _commentId, ctx) => {
+      if (ctx?.prev) qc.setQueryData(qk(startupId), ctx.prev);
+    },
+    onSuccess: (res, commentId) => {
+      qc.setQueryData<CommentDTO[]>(qk(startupId), (prev = []) =>
+        updateInTree(prev, commentId, (c) => ({
+          ...c,
+          votedByMe: res.voted,
+          upvotes: res.displayUpvotes,
+        })),
+      );
+    },
+  });
 
   const submitComment = (e: React.FormEvent) => {
     e.preventDefault();
     const body = draft.trim();
     if (!body) return;
-    setComments([
-      {
-        id: `you-${Date.now()}`,
-        author: "You",
-        username: "you",
-        role: "Guest",
-        initials: "YO",
-        avatarGradient: "from-primary to-rose-600",
-        time: "just now",
-        upvotes: 0,
-        body,
-      },
-      ...comments,
-    ]);
+    addMut.mutate({ parentId: null, body });
     setDraft("");
-  };
-
-  const totalCount = (list: Comment[]): number =>
-    list.reduce((sum, c) => sum + 1 + (c.replies ? totalCount(c.replies) : 0), 0);
-
-  const toggleCommentVote = (id: string) => {
-    setVotedComments((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
   const submitReply = (parentId: string) => {
     const body = (replyDraft[parentId] ?? "").trim();
     if (!body) return;
-    const reply: Comment = {
-      id: `you-${parentId}-${Date.now()}`,
-      author: "You",
-      username: "you",
-      role: "Guest",
-      initials: "YO",
-      avatarGradient: "from-primary to-rose-600",
-      time: "just now",
-      upvotes: 0,
-      body,
-    };
-    const addReply = (list: Comment[]): Comment[] =>
-      list.map((c) =>
-        c.id === parentId
-          ? { ...c, replies: [...(c.replies ?? []), reply] }
-          : { ...c, replies: c.replies ? addReply(c.replies) : c.replies },
-      );
-    setComments(addReply(comments));
+    addMut.mutate({ parentId, body });
     setReplyDraft((prev) => ({ ...prev, [parentId]: "" }));
     setReplyOpen((prev) => ({ ...prev, [parentId]: false }));
   };
@@ -87,7 +146,7 @@ export function DiscussionSection({
       <div className="flex items-center gap-2">
         <MessageCircle className="h-4 w-4 text-muted-foreground" />
         <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-          Discussion ({totalCount(comments)})
+          Discussion ({countTree(comments)})
         </h2>
       </div>
 
@@ -130,8 +189,7 @@ export function DiscussionSection({
             <CommentNode
               comment={c}
               depth={0}
-              voted={votedComments}
-              onVote={toggleCommentVote}
+              onVote={(id) => voteMut.mutate(id)}
               replyOpen={replyOpen}
               setReplyOpen={setReplyOpen}
               replyDraft={replyDraft}
