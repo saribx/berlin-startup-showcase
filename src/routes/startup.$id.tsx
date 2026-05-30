@@ -15,6 +15,7 @@ import { useState } from "react";
 import { getDetail, startups, type Comment, type StartupDetail } from "@/data/startups";
 import { StartupLogo } from "@/components/startup-logo";
 import { CountdownBadge } from "@/components/countdown-badge";
+import { NewsSection, startupNews } from "@/components/news-section";
 import { useApp } from "@/lib/app-context";
 
 export const Route = createFileRoute("/startup/$id")({
@@ -208,6 +209,8 @@ function StartupPage() {
             <BarChart chart={detail.chart} />
           </motion.section>
         )}
+
+        {startupNews[detail.id] && <NewsSection items={startupNews[detail.id]} />}
 
         <motion.section
           initial={{ opacity: 0, y: 12 }}
