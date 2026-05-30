@@ -11,26 +11,26 @@ export interface NewsItem {
 
 export const startupNews: Record<number, NewsItem[]> = {
   1: [
-    { title: "Helsing closes €600M extension at €12B valuation", excerpt: "General Catalyst leads as Europe doubles down on sovereign defense AI.", source: "Reuters", postedAgo: "vor 2 Std." },
-    { title: "HX-2 strike drones enter serial production", excerpt: "Frameworks for tens of thousands of units signed with Ukrainian partners.", source: "Handelsblatt", postedAgo: "vor 8 Std." },
-    { title: "Altra software integrated into Eurofighter Typhoon", excerpt: "Airbus and Helsing complete first live mission trials over the North Sea.", source: "Defense News", postedAgo: "vor 1 Tag" },
-    { title: "Project Lura expands to maritime autonomy", excerpt: "Helsing teams with Saab on autonomous undersea surveillance.", source: "Bloomberg", postedAgo: "vor 2 Tagen" },
-    { title: "European defense spending hits record €380B", excerpt: "NATO members accelerate procurement amid sovereignty push.", source: "FT", postedAgo: "vor 3 Tagen" },
-    { title: "Berlin opens new Helsing engineering hub", excerpt: "300 additional engineers to join by end of 2026.", source: "Tagesspiegel", postedAgo: "vor 4 Tagen" },
+    { title: "Helsing closes €600M extension at €12B valuation", excerpt: "General Catalyst leads as Europe doubles down on sovereign defense AI.", source: "Reuters", postedAgo: "2 h ago" },
+    { title: "HX-2 strike drones enter serial production", excerpt: "Frameworks for tens of thousands of units signed with Ukrainian partners.", source: "Handelsblatt", postedAgo: "8 h ago" },
+    { title: "Altra software integrated into Eurofighter Typhoon", excerpt: "Airbus and Helsing complete first live mission trials over the North Sea.", source: "Defense News", postedAgo: "1 d ago" },
+    { title: "Project Lura expands to maritime autonomy", excerpt: "Helsing teams with Saab on autonomous undersea surveillance.", source: "Bloomberg", postedAgo: "2 d ago" },
+    { title: "European defense spending hits record €380B", excerpt: "NATO members accelerate procurement amid sovereignty push.", source: "FT", postedAgo: "3 d ago" },
+    { title: "Berlin opens new Helsing engineering hub", excerpt: "300 additional engineers to join by end of 2026.", source: "Tagesspiegel", postedAgo: "4 d ago" },
   ],
   2: [
-    { title: "Parloa raises $120M Series C led by Durable Capital", excerpt: "Conversational AI startup triples ARR as enterprises automate support.", source: "TechCrunch", postedAgo: "vor 3 Std." },
-    { title: "Deutsche Telekom rolls out Parloa across call centers", excerpt: "AI agents now handle 40% of inbound support volume.", source: "Handelsblatt", postedAgo: "vor 10 Std." },
-    { title: "Voice AI market expected to hit $50B by 2028", excerpt: "Enterprise adoption accelerates as latency drops below 300ms.", source: "Gartner", postedAgo: "vor 1 Tag" },
-    { title: "Parloa opens New York office", excerpt: "US expansion targets Fortune 500 customer service teams.", source: "Sifted", postedAgo: "vor 2 Tagen" },
-    { title: "New multilingual model supports 35 languages", excerpt: "Real-time translation built into every Parloa agent.", source: "The Verge", postedAgo: "vor 5 Tagen" },
+    { title: "Parloa raises $120M Series C led by Durable Capital", excerpt: "Conversational AI startup triples ARR as enterprises automate support.", source: "TechCrunch", postedAgo: "3 h ago" },
+    { title: "Deutsche Telekom rolls out Parloa across call centers", excerpt: "AI agents now handle 40% of inbound support volume.", source: "Handelsblatt", postedAgo: "10 h ago" },
+    { title: "Voice AI market expected to hit $50B by 2028", excerpt: "Enterprise adoption accelerates as latency drops below 300ms.", source: "Gartner", postedAgo: "1 d ago" },
+    { title: "Parloa opens New York office", excerpt: "US expansion targets Fortune 500 customer service teams.", source: "Sifted", postedAgo: "2 d ago" },
+    { title: "New multilingual model supports 35 languages", excerpt: "Real-time translation built into every Parloa agent.", source: "The Verge", postedAgo: "5 d ago" },
   ],
   3: [
-    { title: "Trade Republic launches EU-wide IBAN accounts", excerpt: "Neobroker becomes full retail bank for 8M European customers.", source: "Bloomberg", postedAgo: "vor 1 Std." },
-    { title: "Savings plans surpass €100B in assets", excerpt: "Younger investors drive growth in passive ETF strategies.", source: "Handelsblatt", postedAgo: "vor 7 Std." },
-    { title: "ECB rate cut sends savers searching for yield", excerpt: "Trade Republic's 2.75% rate now leads German market.", source: "FT", postedAgo: "vor 1 Tag" },
-    { title: "New crypto staking product goes live", excerpt: "Up to 5% APY on selected tokens, fully MiCA-compliant.", source: "CoinDesk", postedAgo: "vor 3 Tagen" },
-    { title: "Trade Republic Card hits 2M users", excerpt: "Debit card with 1% saveback drives daily engagement.", source: "Finanz-Szene", postedAgo: "vor 4 Tagen" },
+    { title: "Trade Republic launches EU-wide IBAN accounts", excerpt: "Neobroker becomes full retail bank for 8M European customers.", source: "Bloomberg", postedAgo: "1 h ago" },
+    { title: "Savings plans surpass €100B in assets", excerpt: "Younger investors drive growth in passive ETF strategies.", source: "Handelsblatt", postedAgo: "7 h ago" },
+    { title: "ECB rate cut sends savers searching for yield", excerpt: "Trade Republic's 2.75% rate now leads German market.", source: "FT", postedAgo: "1 d ago" },
+    { title: "New crypto staking product goes live", excerpt: "Up to 5% APY on selected tokens, fully MiCA-compliant.", source: "CoinDesk", postedAgo: "3 d ago" },
+    { title: "Trade Republic Card hits 2M users", excerpt: "Debit card with 1% saveback drives daily engagement.", source: "Finanz-Szene", postedAgo: "4 d ago" },
   ],
 };
 
