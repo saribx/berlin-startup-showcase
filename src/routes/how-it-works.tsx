@@ -159,6 +159,89 @@ function Pillar({
   );
 }
 
+const HUBS = [
+  { rank: 1, city: "San Francisco Bay", country: "USA", value: "$5.9T", funding: "$278B", change: "—" },
+  { rank: 2, city: "New York", country: "USA", value: "$2.8T", funding: "$162B", change: "▲ 1" },
+  { rank: 3, city: "London", country: "UK", value: "$1.4T", funding: "$104B", change: "▼ 1" },
+  { rank: 4, city: "Los Angeles", country: "USA", value: "$1.1T", funding: "$71B", change: "—" },
+  { rank: 5, city: "Beijing", country: "China", value: "$1.0T", funding: "$58B", change: "—" },
+  { rank: 6, city: "Boston", country: "USA", value: "$680B", funding: "$54B", change: "▲ 1" },
+  { rank: 7, city: "Tel Aviv", country: "Israel", value: "$235B", funding: "$31B", change: "▼ 1" },
+  { rank: 8, city: "Shanghai", country: "China", value: "$420B", funding: "$41B", change: "▲ 2" },
+  { rank: 9, city: "Bengaluru", country: "India", value: "$390B", funding: "$38B", change: "—" },
+  { rank: 10, city: "Singapore", country: "Singapore", value: "$310B", funding: "$26B", change: "▲ 1" },
+  { rank: 11, city: "Paris", country: "France", value: "$240B", funding: "$22B", change: "▲ 2" },
+  { rank: 12, city: "Berlin", country: "Germany", value: "$190B", funding: "$14B", change: "▼ 3" },
+  { rank: 13, city: "Tokyo", country: "Japan", value: "$170B", funding: "$11B", change: "—" },
+  { rank: 14, city: "Stockholm", country: "Sweden", value: "$155B", funding: "$9B", change: "▲ 1" },
+  { rank: 15, city: "Amsterdam", country: "Netherlands", value: "$140B", funding: "$8B", change: "▼ 1" },
+];
+
+function HubsTable() {
+  return (
+    <div className="mt-6 overflow-hidden rounded-2xl border border-border bg-card">
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="border-b border-border bg-muted/40 text-left text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+              <th className="px-4 py-3">#</th>
+              <th className="px-4 py-3">City</th>
+              <th className="px-4 py-3">Country</th>
+              <th className="px-4 py-3 text-right">Ecosystem value</th>
+              <th className="px-4 py-3 text-right">VC funding (2.5y)</th>
+              <th className="px-4 py-3 text-right">YoY</th>
+            </tr>
+          </thead>
+          <tbody>
+            {HUBS.map((h) => {
+              const isBerlin = h.city === "Berlin";
+              return (
+                <tr
+                  key={h.rank}
+                  className={`border-b border-border last:border-0 ${
+                    isBerlin ? "bg-emerald-500/10 font-semibold text-foreground" : ""
+                  }`}
+                >
+                  <td className="px-4 py-3 tabular-nums text-muted-foreground">{h.rank}</td>
+                  <td className="px-4 py-3">
+                    <div className="flex items-center gap-2">
+                      {h.city}
+                      {isBerlin && (
+                        <span className="rounded-full border border-emerald-500/40 bg-emerald-500/15 px-2 py-0.5 text-[10px] uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
+                          We are here
+                        </span>
+                      )}
+                    </div>
+                  </td>
+                  <td className="px-4 py-3 text-muted-foreground">{h.country}</td>
+                  <td className="px-4 py-3 text-right tabular-nums">{h.value}</td>
+                  <td className="px-4 py-3 text-right tabular-nums">{h.funding}</td>
+                  <td
+                    className={`px-4 py-3 text-right tabular-nums text-xs ${
+                      h.change.startsWith("▲")
+                        ? "text-emerald-600 dark:text-emerald-400"
+                        : h.change.startsWith("▼")
+                          ? "text-red-500"
+                          : "text-muted-foreground"
+                    }`}
+                  >
+                    {h.change}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      <div className="border-t border-border bg-muted/30 px-4 py-3 text-xs text-muted-foreground">
+        Berlin dropped three spots since 2024 — mostly due to a shrinking late-stage
+        funding base. Hauptstadt50 closes that gap with locally-anchored, citizen-directed
+        growth capital, so the next decade of European tech is built here.
+      </div>
+    </div>
+  );
+}
+
 const PHASES = [
   {
     n: "01",
