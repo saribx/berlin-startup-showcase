@@ -156,6 +156,19 @@ export const startupDetails: Record<number, StartupDetail> = {
     funding: "€1.4B (Series D)",
     users: "Multiple NATO nations",
     website: "helsing.ai",
+    heroImage: "https://images.unsplash.com/photo-1581094288338-2314dddb7ece?auto=format&fit=crop&w=1600&q=80",
+    chart: {
+      title: "Valuation growth (€B)",
+      unit: "€B",
+      points: [
+        { label: "2021", value: 0.4 },
+        { label: "2022", value: 1.7 },
+        { label: "2023", value: 4.0 },
+        { label: "2024", value: 5.4 },
+        { label: "2025", value: 9.0 },
+        { label: "2026", value: 12 },
+      ],
+    },
     images: [
       { color: "from-slate-700 to-slate-900", label: "Altra Mission Software" },
       { color: "from-zinc-700 to-slate-800", label: "Autonomous Platforms" },
@@ -166,7 +179,7 @@ export const startupDetails: Record<number, StartupDetail> = {
       { label: "Team size", value: "850+" },
       { label: "Last round", value: "€1.4B Series D" },
       { label: "Valuation", value: "€12B" },
-      { label: "HQ", value: "Munich / Berlin" },
+      { label: "MRR", value: "€18M" },
       { label: "Markets", value: "EU + UK" },
     ],
     comments: [
@@ -221,6 +234,19 @@ export const startupDetails: Record<number, StartupDetail> = {
     funding: "$120M Series C",
     users: "Enterprises in 25+ countries",
     website: "parloa.com",
+    heroImage: "https://images.unsplash.com/photo-1531746790731-6c087fecd65a?auto=format&fit=crop&w=1600&q=80",
+    chart: {
+      title: "Calls handled per quarter (M)",
+      unit: "M",
+      points: [
+        { label: "Q1'25", value: 110 },
+        { label: "Q2'25", value: 160 },
+        { label: "Q3'25", value: 215 },
+        { label: "Q4'25", value: 280 },
+        { label: "Q1'26", value: 360 },
+        { label: "Q2'26", value: 470 },
+      ],
+    },
     images: [
       { color: "from-indigo-500 to-violet-700", label: "Agent Studio" },
       { color: "from-violet-500 to-fuchsia-600", label: "Voice Console" },
@@ -231,7 +257,7 @@ export const startupDetails: Record<number, StartupDetail> = {
       { label: "Team size", value: "320" },
       { label: "Last round", value: "$120M Series C" },
       { label: "Valuation", value: "~$3B" },
-      { label: "Enterprise logos", value: "200+" },
+      { label: "MRR", value: "$9.5M" },
       { label: "Calls handled / yr", value: "1B+" },
     ],
     comments: [
@@ -278,6 +304,20 @@ export const startupDetails: Record<number, StartupDetail> = {
     funding: "$1.3B raised",
     users: "8M+ customers",
     website: "traderepublic.com",
+    heroImage: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1600&q=80",
+    chart: {
+      title: "Customers (M)",
+      unit: "M",
+      points: [
+        { label: "2020", value: 0.4 },
+        { label: "2021", value: 1.0 },
+        { label: "2022", value: 2.2 },
+        { label: "2023", value: 4.0 },
+        { label: "2024", value: 5.6 },
+        { label: "2025", value: 7.0 },
+        { label: "2026", value: 8.1 },
+      ],
+    },
     images: [
       { color: "from-emerald-500 to-teal-700", label: "Portfolio" },
       { color: "from-teal-500 to-cyan-700", label: "Savings Plans" },
@@ -288,7 +328,7 @@ export const startupDetails: Record<number, StartupDetail> = {
       { label: "Team size", value: "900" },
       { label: "Total raised", value: "$1.3B" },
       { label: "Customers", value: "8M+" },
-      { label: "Assets in custody", value: "€100B+" },
+      { label: "MRR", value: "€42M" },
       { label: "Markets", value: "17 EU countries" },
     ],
     comments: [
