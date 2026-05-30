@@ -57,6 +57,8 @@ export const startups = sqliteTable("startups", {
 export const users = sqliteTable("users", {
   id: text("id").primaryKey(),
   displayName: text("display_name").notNull(),
+  /** false = anonymous voting session; true = the visitor signed in with a name. */
+  claimed: integer("claimed", { mode: "boolean" }).notNull().default(false),
   createdAt: integer("created_at")
     .notNull()
     .default(sql`(unixepoch())`),

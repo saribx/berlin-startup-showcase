@@ -1,26 +1,18 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-  type ReactNode,
-} from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
 
-// Auth/session state. SPINE STUB: keeps the current mock + localStorage
-// behavior so the app is unchanged. Track C swaps the internals to call
-// auth.server.ts (me / loginBundId / logoutFn) — the hook surface stays fixed.
+import { me, signIn, signOut } from "./auth.server";
 
-export type BundIdUser = {
-  name: string;
-  citizenId: string;
-};
+// Track C — Auth. Simplified name-entry login over the real httpOnly session.
+// Same hook surface as the spine stub (so auth-nav-button / login-dialog are
+// unchanged in shape); login() is now async (a server mutation).
+
+export type AuthUser = { name: string; citizenId: string };
 
 type AuthContextValue = {
-  user: BundIdUser | null;
+  user: AuthUser | null;
   isAuthenticated: boolean;
-  login: (user: BundIdUser) => void;
+  login: (name: string) => Promise<void>;
   logout: () => void;
   openLogin: (reason?: string) => void;
   closeLogin: () => void;
@@ -29,42 +21,46 @@ type AuthContextValue = {
 };
 
 const AuthContext = createContext<AuthContextValue | null>(null);
-
-const USER_KEY = "hs50:user";
+const ME_KEY = ["me"] as const;
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<BundIdUser | null>(null);
+  const qc = useQueryClient();
   const [loginOpen, setLoginOpen] = useState(false);
   const [loginReason, setLoginReason] = useState<string | null>(null);
 
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(USER_KEY);
-      if (raw) setUser(JSON.parse(raw));
-    } catch {
-      // ignore unavailable localStorage
-    }
-  }, []);
+  const { data } = useQuery({ queryKey: ME_KEY, queryFn: () => me() });
+  const user: AuthUser | null = data?.user
+    ? { name: data.user.name, citizenId: data.user.id }
+    : null;
 
-  const login = useCallback((u: BundIdUser) => {
-    setUser(u);
-    try {
-      localStorage.setItem(USER_KEY, JSON.stringify(u));
-    } catch {
-      // ignore unavailable localStorage
-    }
-    setLoginOpen(false);
-    setLoginReason(null);
-  }, []);
+  const loginMut = useMutation({
+    mutationFn: (name: string) => signIn({ data: { name } }),
+    onSuccess: (res) => qc.setQueryData(ME_KEY, { user: res.user }),
+  });
 
-  const logout = useCallback(() => {
-    setUser(null);
-    try {
-      localStorage.removeItem(USER_KEY);
-    } catch {
-      // ignore unavailable localStorage
-    }
-  }, []);
+  const logoutMut = useMutation({
+    mutationFn: () => signOut(),
+    onSuccess: () => {
+      qc.setQueryData(ME_KEY, { user: null });
+      // The session is gone — vote budget + comment "mine" state belong to a
+      // fresh anonymous citizen now, so refetch them.
+      qc.invalidateQueries({ queryKey: ["voteState"] });
+      qc.invalidateQueries({ queryKey: ["comments"] });
+    },
+  });
+
+  const login = useCallback(
+    async (name: string) => {
+      const trimmed = name.trim();
+      if (!trimmed) return;
+      await loginMut.mutateAsync(trimmed);
+      setLoginOpen(false);
+      setLoginReason(null);
+    },
+    [loginMut],
+  );
+
+  const logout = useCallback(() => logoutMut.mutate(), [logoutMut]);
 
   const openLogin = useCallback((reason?: string) => {
     setLoginReason(reason ?? null);

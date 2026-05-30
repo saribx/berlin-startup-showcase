@@ -12,7 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AppProvider } from "@/lib/app-context";
-import { BundIdDialog } from "@/components/bund-id-dialog";
+import { LoginDialog } from "@/components/login-dialog";
 import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
@@ -137,7 +137,7 @@ function RootComponent() {
       <AppProvider>
         {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
         <Outlet />
-        <BundIdDialog />
+        <LoginDialog />
         <Toaster />
       </AppProvider>
     </QueryClientProvider>

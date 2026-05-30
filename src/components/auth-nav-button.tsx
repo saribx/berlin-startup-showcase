@@ -1,10 +1,9 @@
-import { LogIn, LogOut, ShieldCheck } from "lucide-react";
+import { CircleUser, LogIn, LogOut } from "lucide-react";
 
 import { useAuth } from "@/lib/auth-context";
 
-// Extracted from site-nav.tsx so Track C owns the auth control. SPINE STUB:
-// keeps the current behavior via auth-context. Track C points it at the real
-// session (me / loginBundId / logoutFn) — same markup, same surface.
+// Track C — the nav auth control, backed by the real session (auth-context →
+// auth.server). Shows the signed-in display name + sign out, or a Sign in button.
 
 export function AuthNavButton() {
   const { user, isAuthenticated, openLogin, logout } = useAuth();
@@ -17,7 +16,10 @@ export function AuthNavButton() {
         className="group inline-flex items-center gap-2 rounded-full border border-border bg-card px-2.5 py-1 text-[12px] text-foreground transition-colors hover:border-foreground/40"
         title="Sign out"
       >
-        <ShieldCheck className="h-3.5 w-3.5 text-[#004b8d]" strokeWidth={2.5} />
+        <CircleUser
+          className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400"
+          strokeWidth={2.5}
+        />
         <span className="max-w-[110px] truncate font-semibold">{user!.name}</span>
         <LogOut className="h-3 w-3 text-muted-foreground transition-colors group-hover:text-foreground" />
       </button>

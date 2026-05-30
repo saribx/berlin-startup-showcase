@@ -9,7 +9,7 @@ import { VoteProvider, useVotes } from "./vote-context";
 // existing call sites keep working; new code can use useAuth()/useVotes()
 // directly.
 
-export { type BundIdUser } from "./auth-context";
+export { type AuthUser } from "./auth-context";
 
 export function AppProvider({ children }: { children: ReactNode }) {
   return (

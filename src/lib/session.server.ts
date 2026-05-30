@@ -10,7 +10,7 @@ import { sessions, users, type User } from "./db/schema";
 // Server-authoritative pseudonymous identity. Each browser gets its OWN citizen
 // id in an httpOnly cookie, so the "3 votes per person" budget is per-visitor.
 // Vote-first: requireUser() mints on demand, so voting never requires a login;
-// the BundID dialog is an optional "claim a name" step (loginWithBundId).
+// the login dialog is an optional "claim a name" step (signIn).
 //
 // These helpers use request-scoped cookie APIs → call them only inside a
 // createServerFn handler or route loader, never at module scope.
@@ -34,18 +34,18 @@ export function getSession(): { user: User } | null {
   return row ? { user: row.user } : null;
 }
 
-/** Current user, minting a fresh anonymous citizen + session cookie if none. */
+/** Current user, minting a fresh anonymous (unclaimed) citizen + cookie if none. */
 export function requireUser(): User {
-  return getSession()?.user ?? createCitizen().user;
+  return getSession()?.user ?? createCitizen(undefined, false).user;
 }
 
-/** Promote/rename the current identity from the BundID dialog (idempotent). */
-export function loginWithBundId(input: { name: string }): User {
+/** Sign in with a display name: claim + rename the current citizen (mint if none). */
+export function signIn(input: { name: string }): User {
   const existing = getSession();
-  if (!existing) return createCitizen(input.name).user;
+  if (!existing) return createCitizen(input.name, true).user;
   return getDb()
     .update(users)
-    .set({ displayName: input.name })
+    .set({ displayName: input.name, claimed: true })
     .where(eq(users.id, existing.user.id))
     .returning()
     .get();
@@ -59,12 +59,12 @@ export function logout(): void {
   deleteCookie(name, { path: "/" });
 }
 
-function createCitizen(displayName?: string): { user: User } {
+function createCitizen(displayName: string | undefined, claimed: boolean): { user: User } {
   const db = getDb();
   const id = `cit_${newToken(8)}`;
   const user = db
     .insert(users)
-    .values({ id, displayName: displayName ?? citizenLabel(id) })
+    .values({ id, displayName: displayName ?? citizenLabel(id), claimed })
     .returning()
     .get();
   const sid = newToken(32);
