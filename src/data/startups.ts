@@ -7,6 +7,22 @@ export interface Startup {
   emoji: string;
 }
 
+export interface Comment {
+  id: string;
+  author: string;
+  username: string;
+  role: string;
+  company?: string;
+  initials: string;
+  avatarGradient: string;
+  verified?: boolean;
+  maker?: boolean;
+  time: string;
+  body: string;
+  upvotes: number;
+  replies?: Comment[];
+}
+
 export interface StartupDetail extends Startup {
   description: string;
   founded: string;
@@ -16,7 +32,7 @@ export interface StartupDetail extends Startup {
   website: string;
   images: { color: string; label: string }[];
   metrics: { label: string; value: string }[];
-  comments?: { author: string; role: string; initials: string; time: string; body: string }[];
+  comments?: Comment[];
 }
 
 // Real Berlin startups (2026). Top 10 = the "heißesten" list, then the rest.
@@ -97,9 +113,46 @@ export const startupDetails: Record<number, StartupDetail> = {
       { label: "Markets", value: "EU + UK" },
     ],
     comments: [
-      { author: "Lukas Brandt", role: "Defense analyst", initials: "LB", time: "2h ago", body: "Europe finally has a credible sovereign AI defense layer. The pace of Helsing's platform releases is genuinely impressive." },
-      { author: "Marie Dubois", role: "Policy advisor, Paris", initials: "MD", time: "6h ago", body: "Hard to overstate how strategically important this company has become for the EU. Voted." },
-      { author: "Anders Lund", role: "Ex-Saab engineer", initials: "AL", time: "1d ago", body: "Sensor fusion quality is on a different level. The autonomy stack is the real moat." },
+      {
+        id: "h1", author: "Lukas Brandt", username: "lukas_brandt", role: "Defense analyst", company: "IISS",
+        initials: "LB", avatarGradient: "from-orange-400 to-rose-600", verified: true,
+        time: "2h ago", upvotes: 42,
+        body: "Europe finally has a credible sovereign AI defense layer. The pace of Helsing's platform releases is genuinely impressive — Altra in particular is closing the gap with US primes much faster than anyone expected.",
+        replies: [
+          {
+            id: "h1r1", author: "Gundbert Scherf", username: "gundbert", role: "Co-founder & CEO", company: "Helsing",
+            initials: "GS", avatarGradient: "from-slate-700 to-slate-900", maker: true, verified: true,
+            time: "1h ago", upvotes: 28,
+            body: "@lukas_brandt thanks Lukas. Altra is the result of three years of sensor-fusion work — happy to share more on architecture in the next deep dive.",
+          },
+          {
+            id: "h1r2", author: "Anders Lund", username: "anders_lund", role: "Ex-Saab engineer",
+            initials: "AL", avatarGradient: "from-emerald-500 to-teal-700",
+            time: "40m ago", upvotes: 11,
+            body: "@gundbert would love a writeup on the autonomy stack specifically — that's the real moat.",
+          },
+        ],
+      },
+      {
+        id: "h2", author: "Marie Dubois", username: "marie_dubois", role: "Policy advisor", company: "Élysée",
+        initials: "MD", avatarGradient: "from-violet-500 to-fuchsia-600", verified: true,
+        time: "6h ago", upvotes: 24,
+        body: "Hard to overstate how strategically important this company has become for the EU. Voted.",
+        replies: [
+          {
+            id: "h2r1", author: "Niklas Köhler", username: "niklas_k", role: "VC", company: "General Catalyst",
+            initials: "NK", avatarGradient: "from-indigo-500 to-blue-700",
+            time: "5h ago", upvotes: 9,
+            body: "@marie_dubois agreed. The next 18 months of European defense procurement will be defined by them.",
+          },
+        ],
+      },
+      {
+        id: "h3", author: "Sofia Almeida", username: "sofia_a", role: "Robotics engineer",
+        initials: "SA", avatarGradient: "from-amber-400 to-orange-600",
+        time: "1d ago", upvotes: 7,
+        body: "Career page is wild right now — they're hiring everywhere. Anyone here interviewed recently?",
+      },
     ],
   },
   2: {
@@ -125,9 +178,38 @@ export const startupDetails: Record<number, StartupDetail> = {
       { label: "Calls handled / yr", value: "1B+" },
     ],
     comments: [
-      { author: "Sina Yıldız", role: "Head of CX, Lufthansa Group", initials: "SY", time: "3h ago", body: "We cut average handling time by 40% on rebooking flows. Voice quality is indistinguishable from a great agent." },
-      { author: "Daniel Weiss", role: "VP Operations", initials: "DW", time: "7h ago", body: "Best agent-building UX in the market right now. The orchestration model is the secret sauce." },
-      { author: "Priya Menon", role: "AI product lead", initials: "PM", time: "1d ago", body: "Finally enterprise-grade voice AI that doesn't sound like a 2018 IVR." },
+      {
+        id: "p1", author: "Sina Yıldız", username: "sina_y", role: "Head of CX", company: "Lufthansa Group",
+        initials: "SY", avatarGradient: "from-sky-500 to-indigo-600", verified: true,
+        time: "3h ago", upvotes: 38,
+        body: "We cut average handling time by 40% on rebooking flows. Voice quality is indistinguishable from a great agent — passengers genuinely don't notice they're not talking to a human.",
+        replies: [
+          {
+            id: "p1r1", author: "Malte Lohscheller", username: "malte_l", role: "Co-founder", company: "Parloa",
+            initials: "ML", avatarGradient: "from-violet-500 to-fuchsia-600", maker: true, verified: true,
+            time: "2h ago", upvotes: 19,
+            body: "@sina_y thank you Sina — the LH rebooking flow is one of our favorite case studies internally. Excited about what's next on the disruption playbook.",
+          },
+          {
+            id: "p1r2", author: "Daniel Weiss", username: "daniel_w", role: "VP Operations",
+            initials: "DW", avatarGradient: "from-teal-500 to-emerald-700",
+            time: "1h ago", upvotes: 6,
+            body: "@sina_y any data on customer CSAT vs the previous IVR setup?",
+          },
+        ],
+      },
+      {
+        id: "p2", author: "Priya Menon", username: "priya_m", role: "AI product lead",
+        initials: "PM", avatarGradient: "from-rose-500 to-pink-600",
+        time: "1d ago", upvotes: 17,
+        body: "Finally enterprise-grade voice AI that doesn't sound like a 2018 IVR. The agent studio is the best authoring UX I've used.",
+      },
+      {
+        id: "p3", author: "Tobias Renner", username: "tobias_r", role: "Solutions architect", company: "Telefónica",
+        initials: "TR", avatarGradient: "from-amber-500 to-orange-600",
+        time: "1d ago", upvotes: 12,
+        body: "We benchmarked against three competitors. Orchestration model + low-latency voice put Parloa ahead by a wide margin.",
+      },
     ],
   },
   3: {
@@ -153,9 +235,38 @@ export const startupDetails: Record<number, StartupDetail> = {
       { label: "Markets", value: "17 EU countries" },
     ],
     comments: [
-      { author: "Jonas Keller", role: "Retail investor", initials: "JK", time: "1h ago", body: "Switched my entire ETF savings plan over two years ago and never looked back. The card with saveback is genuinely useful." },
-      { author: "Elena Rossi", role: "FinTech analyst, Milan", initials: "ER", time: "5h ago", body: "The most important consumer fintech to come out of Europe this decade. Distribution is unreal." },
-      { author: "Tom Becker", role: "Software engineer", initials: "TB", time: "1d ago", body: "App performance got noticeably better in the last release. Voted." },
+      {
+        id: "t1", author: "Elena Rossi", username: "elena_r", role: "FinTech analyst", company: "Sifted",
+        initials: "ER", avatarGradient: "from-emerald-500 to-teal-700", verified: true,
+        time: "5h ago", upvotes: 56,
+        body: "The most important consumer fintech to come out of Europe this decade. Distribution is unreal — 8M+ customers across 17 markets with extremely lean unit economics.",
+        replies: [
+          {
+            id: "t1r1", author: "Christian Hecker", username: "christian_h", role: "Co-founder & CEO", company: "Trade Republic",
+            initials: "CH", avatarGradient: "from-green-600 to-emerald-800", maker: true, verified: true,
+            time: "4h ago", upvotes: 41,
+            body: "@elena_r thanks Elena. We're particularly proud of how the cash account and saveback have brought new investors into the market who never owned an ETF before.",
+          },
+          {
+            id: "t1r2", author: "Jonas Keller", username: "jonas_k", role: "Retail investor",
+            initials: "JK", avatarGradient: "from-blue-500 to-indigo-700",
+            time: "3h ago", upvotes: 14,
+            body: "@christian_h saveback was the feature that finally got my partner to start investing. Massive deal.",
+          },
+        ],
+      },
+      {
+        id: "t2", author: "Maximilian Voss", username: "max_v", role: "Portfolio manager",
+        initials: "MV", avatarGradient: "from-orange-500 to-rose-600",
+        time: "8h ago", upvotes: 22,
+        body: "Custody crossed €100B this year. Quietly one of the largest investment platforms in Europe now.",
+      },
+      {
+        id: "t3", author: "Tom Becker", username: "tom_b", role: "Software engineer",
+        initials: "TB", avatarGradient: "from-cyan-500 to-blue-700",
+        time: "1d ago", upvotes: 9,
+        body: "App performance got noticeably better in the last release. Voted.",
+      },
     ],
   },
 };
