@@ -11,9 +11,9 @@ import { SiteNav } from "@/components/site-nav";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Hauptstadt50 — Vote for the top 50 Berlin Startups" },
+      { title: "Berlin50 — Vote for the top 50 Berlin Startups" },
       { name: "description", content: "Vote for the 50 Berlin startups that should receive funding this cycle." },
-      { property: "og:title", content: "Hauptstadt50 — Vote for the top 50 Berlin Startups" },
+      { property: "og:title", content: "Berlin50 — Vote for the top 50 Berlin Startups" },
       { property: "og:description", content: "Vote for the 50 Berlin startups that should receive funding this cycle." },
     ],
   }),
@@ -83,7 +83,7 @@ function Index() {
           <div className="flex items-center gap-2.5">
             <BerlinHuntLogo size={36} className="drop-shadow-sm" />
             <div className="flex flex-col leading-none">
-              <span className="text-[15px] font-semibold tracking-tight">Hauptstadt50</span>
+              <span className="text-[15px] font-semibold tracking-tight">Berlin50</span>
               <span className="mt-0.5 text-[10px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
                 Funding cycle 2026
               </span>
