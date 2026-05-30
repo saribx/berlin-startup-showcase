@@ -1,24 +1,44 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Link } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronUp, Sparkles } from "lucide-react";
-import { useMemo, useState } from "react";
+import { ChevronUp, Lock, Timer } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 import { startups } from "@/data/startups";
+import { BerlinHuntLogo } from "@/components/berlin-hunt-logo";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Berlin Hunt — Top 50 Berlin Startups" },
-      { name: "description", content: "Discover the 50 most upvoted startups from Berlin's tech scene." },
-      { property: "og:title", content: "Berlin Hunt — Top 50 Berlin Startups" },
-      { property: "og:description", content: "Discover the 50 most upvoted startups from Berlin's tech scene." },
+      { title: "Berlin Hunt — Vote for the top 50 Berlin Startups" },
+      { name: "description", content: "Vote for the 50 Berlin startups that should receive funding this cycle." },
+      { property: "og:title", content: "Berlin Hunt — Vote for the top 50 Berlin Startups" },
+      { property: "og:description", content: "Vote for the 50 Berlin startups that should receive funding this cycle." },
     ],
   }),
   component: Index,
 });
 
+// Voting closes 3 days, 12 hours from the user's first visit (for the mockup).
+const VOTE_WINDOW_MS = (3 * 24 + 12) * 60 * 60 * 1000;
+
+function useCountdown(targetMs: number) {
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    const i = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(i);
+  }, []);
+  const remaining = Math.max(0, targetMs - now);
+  const days = Math.floor(remaining / (24 * 60 * 60 * 1000));
+  const hours = Math.floor((remaining / (60 * 60 * 1000)) % 24);
+  const minutes = Math.floor((remaining / (60 * 1000)) % 60);
+  const seconds = Math.floor((remaining / 1000) % 60);
+  return { days, hours, minutes, seconds, remaining };
+}
+
 function Index() {
   const [category, setCategory] = useState<string>("All");
+  const [target] = useState(() => Date.now() + VOTE_WINDOW_MS);
+  const { days, hours, minutes, seconds } = useCountdown(target);
 
   const categories = useMemo(() => {
     const set = new Set<string>();
@@ -35,15 +55,31 @@ function Index() {
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-30 border-b border-border bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-4xl items-center justify-between px-6 py-4">
-          <div className="flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-              <Sparkles className="h-4 w-4" />
+          <div className="flex items-center gap-2.5">
+            <BerlinHuntLogo size={36} className="drop-shadow-sm" />
+            <div className="flex flex-col leading-none">
+              <span className="text-[15px] font-semibold tracking-tight">Berlin Hunt</span>
+              <span className="mt-0.5 text-[10px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
+                Funding round 03
+              </span>
             </div>
-            <span className="text-lg font-semibold tracking-tight">Berlin Hunt</span>
           </div>
-          <nav className="text-sm text-muted-foreground">
-            <span className="hidden sm:inline">May 30, 2026</span>
-          </nav>
+          <div className="flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 shadow-sm">
+            <Timer className="h-3.5 w-3.5 text-primary" />
+            <span className="hidden text-[11px] font-medium uppercase tracking-wider text-muted-foreground sm:inline">
+              Voting ends in
+            </span>
+            <span className="flex items-baseline gap-1 text-sm font-semibold tabular-nums text-foreground">
+              <span>{days}</span>
+              <span className="text-[10px] font-medium uppercase text-muted-foreground">d</span>
+              <span>{String(hours).padStart(2, "0")}</span>
+              <span className="text-[10px] font-medium uppercase text-muted-foreground">h</span>
+              <span className="hidden sm:inline">{String(minutes).padStart(2, "0")}</span>
+              <span className="hidden text-[10px] font-medium uppercase text-muted-foreground sm:inline">m</span>
+              <span className="hidden md:inline">{String(seconds).padStart(2, "0")}</span>
+              <span className="hidden text-[10px] font-medium uppercase text-muted-foreground md:inline">s</span>
+            </span>
+          </div>
         </div>
       </header>
 
@@ -55,7 +91,7 @@ function Index() {
           className="mb-10"
         >
           <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
-            Top 50 Berlin Startups
+            Vote for the top 50 Berlin Startups
           </h1>
           <p className="mt-3 text-base text-muted-foreground">
             Vote now for your favourite startups to get funding.
@@ -84,6 +120,7 @@ function Index() {
         <ol className="divide-y divide-border rounded-2xl border border-border bg-card">
           <AnimatePresence initial={false}>
           {filtered.map((s, i) => (
+            <>
             <motion.li
               key={s.id}
               layout
@@ -122,6 +159,36 @@ function Index() {
                 </div>
               </Link>
             </motion.li>
+            {category === "All" && s.id === 50 && (
+              <motion.li
+                key="cutoff"
+                layout
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+                className="relative bg-gradient-to-r from-primary/5 via-primary/10 to-primary/5 px-5 py-4"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary">
+                    <Lock className="h-4 w-4" strokeWidth={2.5} />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[13px] font-semibold uppercase tracking-wider text-primary">
+                      Funding cutoff — Top 50
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      Only startups ranked above this line will be considered for funding this cycle.
+                    </p>
+                  </div>
+                  <span className="hidden shrink-0 rounded-full border border-primary/30 bg-background px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary sm:inline-block">
+                    Below the line
+                  </span>
+                </div>
+                <div className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
+                <div className="pointer-events-none absolute inset-x-0 -bottom-px h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent" />
+              </motion.li>
+            )}
+            </>
           ))}
           </AnimatePresence>
         </ol>
