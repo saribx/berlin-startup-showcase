@@ -11,7 +11,7 @@ import {
   CYCLE_2025_TOTAL_M,
 } from "@/data/cycle-2025";
 
-export const Route = createFileRoute("/cycles/2025")({
+export const Route = createFileRoute("/cycles_/2025")({
   head: () => ({
     meta: [
       { title: "Cycle 2025 — Hauptstadt50" },

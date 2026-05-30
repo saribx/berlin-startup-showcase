@@ -13,7 +13,7 @@ import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as CyclesRouteImport } from './routes/cycles'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as StartupIdRouteImport } from './routes/startup.$id'
-import { Route as Cycles2025RouteImport } from './routes/cycles.2025'
+import { Route as Cycles2025RouteImport } from './routes/cycles_.2025'
 
 const HowItWorksRoute = HowItWorksRouteImport.update({
   id: '/how-it-works',
@@ -36,21 +36,21 @@ const StartupIdRoute = StartupIdRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const Cycles2025Route = Cycles2025RouteImport.update({
-  id: '/2025',
-  path: '/2025',
-  getParentRoute: () => CyclesRoute,
+  id: '/cycles_/2025',
+  path: '/cycles/2025',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/cycles': typeof CyclesRouteWithChildren
+  '/cycles': typeof CyclesRoute
   '/how-it-works': typeof HowItWorksRoute
   '/cycles/2025': typeof Cycles2025Route
   '/startup/$id': typeof StartupIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/cycles': typeof CyclesRouteWithChildren
+  '/cycles': typeof CyclesRoute
   '/how-it-works': typeof HowItWorksRoute
   '/cycles/2025': typeof Cycles2025Route
   '/startup/$id': typeof StartupIdRoute
@@ -58,9 +58,9 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/cycles': typeof CyclesRouteWithChildren
+  '/cycles': typeof CyclesRoute
   '/how-it-works': typeof HowItWorksRoute
-  '/cycles/2025': typeof Cycles2025Route
+  '/cycles_/2025': typeof Cycles2025Route
   '/startup/$id': typeof StartupIdRoute
 }
 export interface FileRouteTypes {
@@ -73,14 +73,15 @@ export interface FileRouteTypes {
     | '/'
     | '/cycles'
     | '/how-it-works'
-    | '/cycles/2025'
+    | '/cycles_/2025'
     | '/startup/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  CyclesRoute: typeof CyclesRouteWithChildren
+  CyclesRoute: typeof CyclesRoute
   HowItWorksRoute: typeof HowItWorksRoute
+  Cycles2025Route: typeof Cycles2025Route
   StartupIdRoute: typeof StartupIdRoute
 }
 
@@ -114,33 +115,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StartupIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/cycles/2025': {
-      id: '/cycles/2025'
-      path: '/2025'
+    '/cycles_/2025': {
+      id: '/cycles_/2025'
+      path: '/cycles/2025'
       fullPath: '/cycles/2025'
       preLoaderRoute: typeof Cycles2025RouteImport
-      parentRoute: typeof CyclesRoute
+      parentRoute: typeof rootRouteImport
     }
   }
 }
 
-interface CyclesRouteChildren {
-  Cycles2025Route: typeof Cycles2025Route
-}
-
-const CyclesRouteChildren: CyclesRouteChildren = {
-  Cycles2025Route: Cycles2025Route,
-}
-
-const CyclesRouteWithChildren =
-  CyclesRoute._addFileChildren(CyclesRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  CyclesRoute: CyclesRouteWithChildren,
+  CyclesRoute: CyclesRoute,
   HowItWorksRoute: HowItWorksRoute,
+  Cycles2025Route: Cycles2025Route,
   StartupIdRoute: StartupIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
