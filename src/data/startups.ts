@@ -33,6 +33,12 @@ export interface StartupDetail extends Startup {
   images: { color: string; label: string }[];
   metrics: { label: string; value: string }[];
   comments?: Comment[];
+  heroImage?: string;
+  chart?: {
+    title: string;
+    unit?: string;
+    points: { label: string; value: number }[];
+  };
 }
 
 // Real Berlin startups (2026). Top 10 = the "heißesten" list, then the rest.
