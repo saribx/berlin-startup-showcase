@@ -2,6 +2,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, CheckCircle2, Vote } from "lucide-react";
 import { BerlinHuntLogo } from "@/components/berlin-hunt-logo";
 import { SiteNav } from "@/components/site-nav";
+import { StartupLogo } from "@/components/startup-logo";
+import { startups } from "@/data/startups";
+import { CYCLE_2025 } from "@/data/cycle-2025";
 
 export const Route = createFileRoute("/cycles")({
   head: () => ({
@@ -44,7 +47,14 @@ function Cycles() {
             status="Voting phase"
             statusTone="live"
             icon={<Vote className="h-4 w-4" />}
-            blurb="200 M € on the line. Vote now for the top 50."
+            amount="200 Mio. €"
+            amountLabel="Funding pool"
+            blurb="Die Berliner*innen wählen, welche 50 Startups in diesem Cycle Kapital erhalten. Stimme jetzt mit, bevor das Voting endet."
+            logos={startups.slice(0, 3).map((s) => ({
+              name: s.name,
+              domain: s.domain,
+              emoji: s.emoji,
+            }))}
             link={
               <Link to="/" className="absolute inset-0" aria-label="Open cycle 2026" />
             }
@@ -54,7 +64,14 @@ function Cycles() {
             status="Completed"
             statusTone="muted"
             icon={<CheckCircle2 className="h-4 w-4" />}
-            blurb="190 M € distributed across 25 winning startups."
+            amount="190 Mio. €"
+            amountLabel="Distributed"
+            blurb="Sieh ein, welche 25 Berliner Startups gefördert wurden – inklusive Investmentsumme, Rendite, Wachstum und neuen Jobs."
+            logos={CYCLE_2025.slice(0, 3).map((s) => ({
+              name: s.name,
+              domain: s.domain,
+              emoji: "🚀",
+            }))}
             link={
               <Link to="/cycles/2025" className="absolute inset-0" aria-label="Open cycle 2025" />
             }
@@ -71,6 +88,9 @@ function CycleCard({
   statusTone,
   icon,
   blurb,
+  amount,
+  amountLabel,
+  logos,
   link,
 }: {
   year: string;
@@ -78,6 +98,9 @@ function CycleCard({
   statusTone: "muted" | "live";
   icon: React.ReactNode;
   blurb: string;
+  amount: string;
+  amountLabel: string;
+  logos: { name: string; domain?: string; emoji: string }[];
   link: React.ReactNode;
 }) {
   const tone =
@@ -87,15 +110,46 @@ function CycleCard({
   return (
     <div className="group relative flex flex-col rounded-2xl border border-border bg-card p-6 transition-all hover:-translate-y-0.5 hover:border-foreground/30 hover:shadow-lg">
       {link}
-      <div className={`inline-flex w-fit items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider ${tone}`}>
-        {statusTone === "live" && (
-          <span className="inline-flex h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
-        )}
-        {icon}
-        {status}
+      <div className="relative flex items-start justify-between gap-3">
+        <div className={`inline-flex w-fit items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider ${tone}`}>
+          {statusTone === "live" && (
+            <span className="inline-flex h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
+          )}
+          {icon}
+          {status}
+        </div>
+        <div className="flex -space-x-2">
+          {logos.map((l) => (
+            <StartupLogo
+              key={l.name}
+              name={l.name}
+              domain={l.domain}
+              emoji={l.emoji}
+              size={28}
+              rounded="rounded-full"
+              className="ring-2 ring-card"
+            />
+          ))}
+        </div>
       </div>
       <div className="mt-6 text-5xl font-semibold tracking-tight">{year}</div>
-      <p className="mt-2 text-sm text-muted-foreground">{blurb}</p>
+
+      <div className={`relative mt-5 rounded-xl border p-4 ${
+        statusTone === "live"
+          ? "border-emerald-500/30 bg-emerald-500/5"
+          : "border-border bg-muted/40"
+      }`}>
+        <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+          {amountLabel}
+        </div>
+        <div className={`mt-1 text-3xl font-bold tracking-tight ${
+          statusTone === "live" ? "text-emerald-600 dark:text-emerald-400" : "text-foreground"
+        }`}>
+          {amount}
+        </div>
+      </div>
+
+      <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{blurb}</p>
       <div className="relative mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-foreground/80 transition-colors group-hover:text-foreground">
         View
         <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
