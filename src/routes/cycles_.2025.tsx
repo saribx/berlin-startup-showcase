@@ -132,24 +132,24 @@ function Cycle2025() {
           </span>
           <h1 className="mt-3 text-5xl font-semibold tracking-tight sm:text-6xl">Cycle 2025</h1>
           <p className="mt-2 max-w-2xl text-muted-foreground">
-            25 Berliner Startups · 190 Mio. € vollständig ausgezahlt · 612.400 Bürger*innen haben mitgestimmt
+            25 Berlin startups · €190M fully deployed · 612,400 citizens cast a vote
           </p>
         </div>
 
         {/* KPI strip */}
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
-          <StatCard icon={<Wallet className="h-4 w-4" />} label="Total invested" value={`${CYCLE_2025_TOTAL_M} M €`} />
+          <StatCard icon={<Wallet className="h-4 w-4" />} label="Total invested" value={`€${CYCLE_2025_TOTAL_M}M`} />
           <StatCard icon={<Sparkles className="h-4 w-4" />} label="Fund ROI" value={`+${CYCLE_2025_ROI_PCT}%`} accent />
           <StatCard icon={<TrendingUp className="h-4 w-4" />} label="Avg. growth YoY" value={`+${CYCLE_2025_GROWTH_PCT}%`} accent />
-          <StatCard icon={<Briefcase className="h-4 w-4" />} label="New jobs" value={CYCLE_2025_NEW_JOBS.toLocaleString("de-DE")} />
+          <StatCard icon={<Briefcase className="h-4 w-4" />} label="New jobs" value={CYCLE_2025_NEW_JOBS.toLocaleString("en-US")} />
           <StatCard icon={<Users className="h-4 w-4" />} label="Voters" value={`${(CYCLE_2025_VOTERS / 1000).toFixed(0)}k`} sub={`${CYCLE_2025_VOTER_TURNOUT_PCT}% turnout`} />
-          <StatCard icon={<FileText className="h-4 w-4" />} label="Applications" value={CYCLE_2025_APPLICATIONS.toLocaleString("de-DE")} sub={`Ø ${avgTicketM} M € ticket`} />
+          <StatCard icon={<FileText className="h-4 w-4" />} label="Applications" value={CYCLE_2025_APPLICATIONS.toLocaleString("en-US")} sub={`Avg. €${avgTicketM}M ticket`} />
         </div>
 
         {/* Highlights */}
         <section className="mt-10">
           <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground">
-            Highlights des Cycles
+            Cycle highlights
           </h2>
           <div className="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <HighlightCard
@@ -158,19 +158,19 @@ function Cycle2025() {
               metric={`+${topPerformers.bestROI.roiPct}%`}
             />
             <HighlightCard
-              label="Schnellstes Wachstum"
+              label="Fastest growth"
               startup={topPerformers.fastestGrower}
               metric={`+${topPerformers.fastestGrower.growthPct}% YoY`}
             />
             <HighlightCard
-              label="Meiste neue Jobs"
+              label="Most new jobs"
               startup={topPerformers.mostJobs}
               metric={`${topPerformers.mostJobs.newJobs} hires`}
             />
             <HighlightCard
-              label="Publikumsliebling"
+              label="Public favorite"
               startup={topPerformers.mostVoted}
-              metric={`${topPerformers.mostVoted.votes.toLocaleString("de-DE")} votes`}
+              metric={`${topPerformers.mostVoted.votes.toLocaleString("en-US")} votes`}
             />
           </div>
         </section>
@@ -178,8 +178,8 @@ function Cycle2025() {
         {/* Charts row 1: bar + pie */}
         <section className="mt-10 grid gap-6 lg:grid-cols-[1fr_380px]">
           <ChartCard
-            title="Top 10 Investments"
-            subtitle="Verteilung des Fonds auf die größten Tickets"
+            title="Top 10 investments"
+            subtitle="The largest tickets allocated from the fund"
           >
             <div className="h-72">
               <ResponsiveContainer width="100%" height="100%">
@@ -187,7 +187,7 @@ function Cycle2025() {
                   <CartesianGrid stroke="hsl(var(--border))" strokeDasharray="3 3" vertical={false} />
                   <XAxis dataKey="name" tick={{ fontSize: 10 }} interval={0} angle={-25} textAnchor="end" height={60} stroke="hsl(var(--muted-foreground))" />
                   <YAxis tick={{ fontSize: 11 }} stroke="hsl(var(--muted-foreground))" tickFormatter={(v) => `${v}M`} />
-                  <Tooltip contentStyle={tooltipStyle} formatter={(v: number) => [`${v} M €`, "Investment"]} cursor={{ fill: "hsl(var(--muted) / 0.4)" }} />
+                  <Tooltip contentStyle={tooltipStyle} formatter={(v: number) => [`€${v}M`, "Investment"]} cursor={{ fill: "hsl(var(--muted) / 0.4)" }} />
                   <Bar dataKey="investmentM" radius={[6, 6, 0, 0]} fill="#10b981" />
                 </BarChart>
               </ResponsiveContainer>
@@ -195,8 +195,8 @@ function Cycle2025() {
           </ChartCard>
 
           <ChartCard
-            title="Investment nach Sektor"
-            subtitle="Anteile am 190 M € Pool"
+            title="Investment by sector"
+            subtitle="Share of the €190M pool"
           >
             <div className="h-56">
               <ResponsiveContainer width="100%" height="100%">
@@ -206,7 +206,7 @@ function Cycle2025() {
                       <Cell key={i} fill={SECTOR_COLORS[i % SECTOR_COLORS.length]} />
                     ))}
                   </Pie>
-                  <Tooltip contentStyle={tooltipStyle} formatter={(v: number) => [`${v} M €`, "Investment"]} />
+                  <Tooltip contentStyle={tooltipStyle} formatter={(v: number) => [`€${v}M`, "Investment"]} />
                 </PieChart>
               </ResponsiveContainer>
             </div>
@@ -219,7 +219,7 @@ function Cycle2025() {
                       <span className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: SECTOR_COLORS[i % SECTOR_COLORS.length] }} />
                       <span className="text-foreground">{s.name}</span>
                     </span>
-                    <span className="tabular-nums text-muted-foreground">{s.value} M € · {pct.toFixed(1)}%</span>
+                    <span className="tabular-nums text-muted-foreground">€{s.value}M · {pct.toFixed(1)}%</span>
                   </li>
                 );
               })}
@@ -230,8 +230,8 @@ function Cycle2025() {
         {/* Charts row 2: deployment + sector growth */}
         <section className="mt-6 grid gap-6 lg:grid-cols-2">
           <ChartCard
-            title="Kapital-Deployment 2025"
-            subtitle="Quartalsweise Auszahlung an die Portfolio-Startups"
+            title="Capital deployment 2025"
+            subtitle="Quarterly payouts to portfolio startups"
           >
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
@@ -247,7 +247,7 @@ function Cycle2025() {
                   <YAxis tick={{ fontSize: 11 }} stroke="hsl(var(--muted-foreground))" tickFormatter={(v) => `${v}M`} />
                   <Tooltip
                     contentStyle={tooltipStyle}
-                    formatter={(v: number, n) => [`${v} M €`, n === "cumulativeM" ? "Kumulativ" : "Quartal"]}
+                    formatter={(v: number, n) => [`€${v}M`, n === "cumulativeM" ? "Cumulative" : "Quarter"]}
                   />
                   <Area type="monotone" dataKey="cumulativeM" stroke="#10b981" strokeWidth={2} fill="url(#deploy)" />
                   <Bar dataKey="deployedM" fill="#10b981" opacity={0.4} radius={[4, 4, 0, 0]} />
@@ -257,8 +257,8 @@ function Cycle2025() {
           </ChartCard>
 
           <ChartCard
-            title="Ø Wachstum nach Sektor"
-            subtitle="Durchschnittliches YoY-Umsatzwachstum der geförderten Startups"
+            title="Avg. growth by sector"
+            subtitle="Average YoY revenue growth of funded startups"
           >
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
@@ -266,7 +266,7 @@ function Cycle2025() {
                   <CartesianGrid stroke="hsl(var(--border))" strokeDasharray="3 3" horizontal={false} />
                   <XAxis type="number" tick={{ fontSize: 11 }} stroke="hsl(var(--muted-foreground))" tickFormatter={(v) => `${v}%`} />
                   <YAxis type="category" dataKey="name" tick={{ fontSize: 11 }} width={84} stroke="hsl(var(--muted-foreground))" />
-                  <Tooltip contentStyle={tooltipStyle} formatter={(v: number) => [`+${v}%`, "Ø Wachstum"]} cursor={{ fill: "hsl(var(--muted) / 0.4)" }} />
+                  <Tooltip contentStyle={tooltipStyle} formatter={(v: number) => [`+${v}%`, "Avg. growth"]} cursor={{ fill: "hsl(var(--muted) / 0.4)" }} />
                   <Bar dataKey="avgGrowth" radius={[0, 6, 6, 0]}>
                     {sectorData.map((_, i) => (
                       <Cell key={i} fill={SECTOR_COLORS[i % SECTOR_COLORS.length]} />
@@ -281,9 +281,9 @@ function Cycle2025() {
         {/* Detailed table */}
         <section className="mt-10 overflow-hidden rounded-2xl border border-border bg-card">
           <div className="border-b border-border px-5 py-3">
-            <h2 className="text-sm font-semibold">Funded startups · vollständige Übersicht</h2>
+            <h2 className="text-sm font-semibold">Funded startups · full breakdown</h2>
             <p className="text-xs text-muted-foreground">
-              Sortiert nach Investmentvolumen · Allokation durch die Fondsmanager, unabhängig vom Voting-Ranking
+              Sorted by investment volume · allocated by the fund managers, independent of the voting ranking
             </p>
           </div>
           <div className="overflow-x-auto">
@@ -295,9 +295,9 @@ function Cycle2025() {
                   <th className="px-4 py-2.5 text-left font-semibold">Sector</th>
                   <th className="px-4 py-2.5 text-right font-semibold">Votes</th>
                   <th className="px-4 py-2.5 text-right font-semibold">Investment</th>
-                  <th className="px-4 py-2.5 text-right font-semibold">Wachstum</th>
+                  <th className="px-4 py-2.5 text-right font-semibold">Growth</th>
                   <th className="px-4 py-2.5 text-right font-semibold">ROI</th>
-                  <th className="px-4 py-2.5 text-right font-semibold">Neue Jobs</th>
+                  <th className="px-4 py-2.5 text-right font-semibold">New jobs</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
@@ -311,9 +311,9 @@ function Cycle2025() {
                       </div>
                     </td>
                     <td className="px-4 py-3 text-muted-foreground">{s.sector}</td>
-                    <td className="px-4 py-3 text-right tabular-nums text-muted-foreground">{s.votes.toLocaleString("de-DE")}</td>
+                    <td className="px-4 py-3 text-right tabular-nums text-muted-foreground">{s.votes.toLocaleString("en-US")}</td>
                     <td className="px-4 py-3 text-right font-semibold tabular-nums">
-                      {s.investmentM.toLocaleString("de-DE", { minimumFractionDigits: s.investmentM % 1 ? 1 : 0 })} M €
+                      €{s.investmentM.toLocaleString("en-US", { minimumFractionDigits: s.investmentM % 1 ? 1 : 0 })}M
                     </td>
                     <td className="px-4 py-3 text-right tabular-nums text-emerald-600 dark:text-emerald-400">+{s.growthPct}%</td>
                     <td className="px-4 py-3 text-right tabular-nums text-emerald-600 dark:text-emerald-400">+{s.roiPct}%</td>
@@ -324,10 +324,10 @@ function Cycle2025() {
               <tfoot>
                 <tr className="border-t border-border bg-muted/30 text-sm font-semibold">
                   <td className="px-4 py-3" colSpan={4}>Total</td>
-                  <td className="px-4 py-3 text-right tabular-nums">{CYCLE_2025_TOTAL_M} M €</td>
-                  <td className="px-4 py-3 text-right tabular-nums text-emerald-600 dark:text-emerald-400">+{CYCLE_2025_GROWTH_PCT}% Ø</td>
-                  <td className="px-4 py-3 text-right tabular-nums text-emerald-600 dark:text-emerald-400">+{CYCLE_2025_ROI_PCT}% Ø</td>
-                  <td className="px-4 py-3 text-right tabular-nums">{CYCLE_2025_NEW_JOBS.toLocaleString("de-DE")}</td>
+                  <td className="px-4 py-3 text-right tabular-nums">€{CYCLE_2025_TOTAL_M}M</td>
+                  <td className="px-4 py-3 text-right tabular-nums text-emerald-600 dark:text-emerald-400">+{CYCLE_2025_GROWTH_PCT}% avg</td>
+                  <td className="px-4 py-3 text-right tabular-nums text-emerald-600 dark:text-emerald-400">+{CYCLE_2025_ROI_PCT}% avg</td>
+                  <td className="px-4 py-3 text-right tabular-nums">{CYCLE_2025_NEW_JOBS.toLocaleString("en-US")}</td>
                 </tr>
               </tfoot>
             </table>
@@ -335,7 +335,7 @@ function Cycle2025() {
         </section>
 
         <p className="mt-8 text-center text-xs text-muted-foreground">
-          Alle Angaben sind Mockup-Daten zu Demonstrationszwecken.
+          All figures are mock data for demonstration purposes.
         </p>
       </main>
     </div>
