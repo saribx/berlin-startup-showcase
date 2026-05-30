@@ -210,6 +210,8 @@ function StartupPage() {
           </motion.section>
         )}
 
+        {startupNews[detail.id] && <NewsSection items={startupNews[detail.id]} />}
+
         <motion.section
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
