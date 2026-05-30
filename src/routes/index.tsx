@@ -81,17 +81,19 @@ function Index() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-10 flex flex-wrap items-end justify-between gap-4"
+          className="mb-10"
         >
-          <div>
-            <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
-              Vote for the top 50 Berlin Startups
-            </h1>
-            <p className="mt-3 text-base text-muted-foreground">
+          <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
+            Vote for the top 50 Berlin Startups
+          </h1>
+          <div className="mt-3 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-base text-muted-foreground">
               Vote now for your favourite startups to get funding.
             </p>
+            <div className="sm:ml-auto">
+              <CountdownBadge days={days} hours={hours} minutes={minutes} seconds={seconds} />
+            </div>
           </div>
-          <CountdownBadge days={days} hours={hours} minutes={minutes} seconds={seconds} />
         </motion.div>
 
         <div className="mb-6 -mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
