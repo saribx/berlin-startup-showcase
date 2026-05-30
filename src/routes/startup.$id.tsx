@@ -14,6 +14,7 @@ import {
 import { useState } from "react";
 import { getDetail, startups, type Comment, type StartupDetail } from "@/data/startups";
 import { StartupLogo } from "@/components/startup-logo";
+import { CountdownBadge } from "@/components/countdown-badge";
 import { useApp } from "@/lib/app-context";
 
 export const Route = createFileRoute("/startup/$id")({
