@@ -223,6 +223,88 @@ export const startupDetails: Record<number, StartupDetail> = {
         time: "1d ago", upvotes: 9190,
         body: "Career page is wild right now — they're hiring everywhere. Anyone here interviewed recently?",
       },
+      {
+        id: "h4", author: "Jens Hartmann", username: "jens_h", role: "Bundeswehr advisor", company: "BMVg",
+        initials: "JH", avatarGradient: "from-stone-600 to-stone-900", verified: true,
+        time: "3h ago", upvotes: 8120,
+        body: "What Helsing has done for German procurement timelines alone is worth the valuation. Voted.",
+        replies: [
+          {
+            id: "h4r1", author: "Pia Vogel", username: "pia_v", role: "Procurement officer",
+            initials: "PV", avatarGradient: "from-rose-400 to-red-600",
+            time: "2h ago", upvotes: 3120,
+            body: "@jens_h finally a vendor that ships software faster than we can write requirements.",
+          },
+        ],
+      },
+      {
+        id: "h5", author: "Ravi Suresh", username: "ravi_s", role: "ML researcher", company: "ETH Zürich",
+        initials: "RS", avatarGradient: "from-cyan-500 to-blue-700", verified: true,
+        time: "5h ago", upvotes: 6740,
+        body: "Their sensor fusion paper at NeurIPS was the most technically interesting defense AI work I've read this year.",
+      },
+      {
+        id: "h6", author: "Beatrice Lefèvre", username: "beatrice_l", role: "Defense correspondent", company: "Le Monde",
+        initials: "BL", avatarGradient: "from-fuchsia-500 to-pink-700", verified: true,
+        time: "7h ago", upvotes: 5380,
+        body: "Interviewed the team last week. The discipline around dual-use ethics is more serious than competitors give them credit for.",
+        replies: [
+          {
+            id: "h6r1", author: "Maximilian Reuter", username: "max_reuter", role: "Policy researcher",
+            initials: "MR", avatarGradient: "from-indigo-500 to-purple-700",
+            time: "6h ago", upvotes: 1840,
+            body: "@beatrice_l do you have a link to the piece? Would love to share with my team.",
+          },
+          {
+            id: "h6r2", author: "Beatrice Lefèvre", username: "beatrice_l", role: "Defense correspondent", company: "Le Monde",
+            initials: "BL", avatarGradient: "from-fuchsia-500 to-pink-700", verified: true,
+            time: "5h ago", upvotes: 1120,
+            body: "@max_reuter going live tomorrow morning. Will drop it here.",
+          },
+        ],
+      },
+      {
+        id: "h7", author: "Karl Becker", username: "karl_b", role: "Reservist & engineer",
+        initials: "KB", avatarGradient: "from-emerald-600 to-green-800",
+        time: "10h ago", upvotes: 4210,
+        body: "Tried out a public demo at ILA. The latency on the targeting overlay was genuinely a generation ahead of anything I've used in service.",
+      },
+      {
+        id: "h8", author: "Léa Moreau", username: "lea_m", role: "Investor", company: "Eurazeo",
+        initials: "LM", avatarGradient: "from-orange-500 to-amber-700", verified: true,
+        time: "12h ago", upvotes: 3970,
+        body: "Cap table is a who's who of European sovereignty money. The signaling effect for the next defense round across the continent is huge.",
+      },
+      {
+        id: "h9", author: "Henrik Söderberg", username: "henrik_s", role: "Ex-Saab program lead",
+        initials: "HS", avatarGradient: "from-sky-600 to-blue-800",
+        time: "1d ago", upvotes: 3210,
+        body: "Skeptical at first but the field demos this autumn changed my mind. The autonomy stack is real.",
+      },
+      {
+        id: "h10", author: "Anna Kowalski", username: "anna_k", role: "Defense journalist", company: "Politico EU",
+        initials: "AK", avatarGradient: "from-rose-500 to-red-700", verified: true,
+        time: "1d ago", upvotes: 2890,
+        body: "Voted. Whatever you think of defense tech, Europe needs domestic champions and this is the clearest one.",
+      },
+      {
+        id: "h11", author: "Tomás Carvalho", username: "tomas_c", role: "Software engineer",
+        initials: "TC", avatarGradient: "from-teal-500 to-cyan-700",
+        time: "1d ago", upvotes: 2410,
+        body: "Their engineering blog is criminally underrated. The post on real-time data pipelines for sensor fusion was a masterclass.",
+      },
+      {
+        id: "h12", author: "Ingrid Hansen", username: "ingrid_h", role: "Naval officer",
+        initials: "IH", avatarGradient: "from-indigo-600 to-blue-900",
+        time: "2d ago", upvotes: 2080,
+        body: "Curious to see how their maritime variant performs in the Baltic exercises next quarter.",
+      },
+      {
+        id: "h13", author: "Felipe Ortega", username: "felipe_o", role: "Founder", company: "early-stage defense startup",
+        initials: "FO", avatarGradient: "from-amber-500 to-orange-700",
+        time: "2d ago", upvotes: 1640,
+        body: "Helsing's rise pulled my entire funding round closer by 6 months. The category is finally fundable in Europe.",
+      },
     ],
   },
   2: {
