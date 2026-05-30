@@ -6,7 +6,7 @@ import { getDb } from "./db.server";
 import { cycles, startups, votes } from "./db/schema";
 import { getSession, requireUser } from "./session.server";
 
-// Track A — Voting. Server-enforced 3-vote budget (per the active cycle's
+// Track A — Voting. Server-enforced 50-vote budget (per the active cycle's
 // vote_budget). displayVotes = startups.seed_votes + COUNT(real votes).
 
 const nowSec = () => Math.floor(Date.now() / 1000);

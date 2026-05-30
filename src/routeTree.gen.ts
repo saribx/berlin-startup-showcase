@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as CyclesRouteImport } from './routes/cycles'
+import { Route as AccountRouteImport } from './routes/account'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as StartupIdRouteImport } from './routes/startup.$id'
 import { Route as Cycles2025RouteImport } from './routes/cycles_.2025'
@@ -23,6 +24,11 @@ const HowItWorksRoute = HowItWorksRouteImport.update({
 const CyclesRoute = CyclesRouteImport.update({
   id: '/cycles',
   path: '/cycles',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AccountRoute = AccountRouteImport.update({
+  id: '/account',
+  path: '/account',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -43,6 +49,7 @@ const Cycles2025Route = Cycles2025RouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/account': typeof AccountRoute
   '/cycles': typeof CyclesRoute
   '/how-it-works': typeof HowItWorksRoute
   '/cycles/2025': typeof Cycles2025Route
@@ -50,6 +57,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/account': typeof AccountRoute
   '/cycles': typeof CyclesRoute
   '/how-it-works': typeof HowItWorksRoute
   '/cycles/2025': typeof Cycles2025Route
@@ -58,6 +66,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/account': typeof AccountRoute
   '/cycles': typeof CyclesRoute
   '/how-it-works': typeof HowItWorksRoute
   '/cycles_/2025': typeof Cycles2025Route
@@ -65,12 +74,25 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/cycles' | '/how-it-works' | '/cycles/2025' | '/startup/$id'
+  fullPaths:
+    | '/'
+    | '/account'
+    | '/cycles'
+    | '/how-it-works'
+    | '/cycles/2025'
+    | '/startup/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/cycles' | '/how-it-works' | '/cycles/2025' | '/startup/$id'
+  to:
+    | '/'
+    | '/account'
+    | '/cycles'
+    | '/how-it-works'
+    | '/cycles/2025'
+    | '/startup/$id'
   id:
     | '__root__'
     | '/'
+    | '/account'
     | '/cycles'
     | '/how-it-works'
     | '/cycles_/2025'
@@ -79,6 +101,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AccountRoute: typeof AccountRoute
   CyclesRoute: typeof CyclesRoute
   HowItWorksRoute: typeof HowItWorksRoute
   Cycles2025Route: typeof Cycles2025Route
@@ -99,6 +122,13 @@ declare module '@tanstack/react-router' {
       path: '/cycles'
       fullPath: '/cycles'
       preLoaderRoute: typeof CyclesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/account': {
+      id: '/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AccountRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -127,6 +157,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AccountRoute: AccountRoute,
   CyclesRoute: CyclesRoute,
   HowItWorksRoute: HowItWorksRoute,
   Cycles2025Route: Cycles2025Route,

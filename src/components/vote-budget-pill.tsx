@@ -1,6 +1,6 @@
 import { useVotes } from "@/lib/vote-context";
 
-// "x/3 votes used" indicator. SPINE STUB: reads vote-context (locally derived
+// "x/50 votes used" indicator. SPINE STUB: reads vote-context (locally derived
 // budget). Track A keeps the same surface once the budget comes from the server.
 
 export function VoteBudgetPill() {
@@ -13,7 +13,7 @@ export function VoteBudgetPill() {
           ? "border-amber-500/40 bg-amber-500/10 text-amber-700 dark:text-amber-400"
           : "border-border bg-card text-muted-foreground"
       }`}
-      title={exhausted ? "You've used all 3 votes — remove one to vote elsewhere" : undefined}
+      title={exhausted ? `You've used all ${budgetTotal} votes — remove one to vote elsewhere` : undefined}
     >
       <span
         className={`inline-flex h-1.5 w-1.5 rounded-full ${exhausted ? "bg-amber-500" : "bg-emerald-500"}`}

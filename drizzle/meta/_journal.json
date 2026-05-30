@@ -15,6 +15,13 @@
       "when": 1780154369371,
       "tag": "0001_sad_shiva",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1780158443713,
+      "tag": "0002_redundant_vindicator",
+      "breakpoints": true
     }
   ]
 }

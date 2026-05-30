@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { getVoteState, toggleVote as toggleVoteFn } from "./votes.server";
 
 // Track A — Voting. Server-backed (votes.server.ts) via react-query with
-// optimistic updates and the 3-vote budget. The hook surface matches the spine
+// optimistic updates and the 50-vote budget. The hook surface matches the spine
 // stub so index.tsx / startup.$id.tsx are untouched.
 
 type VoteState = {
@@ -16,7 +16,7 @@ type VoteState = {
   budgetTotal: number;
 };
 
-const BUDGET_TOTAL = 3;
+const BUDGET_TOTAL = 50;
 const EMPTY: VoteState = {
   votedIds: [],
   counts: {},
@@ -73,7 +73,7 @@ export function VoteProvider({ children }: { children: ReactNode }) {
       if (ctx?.prev) qc.setQueryData(VOTE_STATE_KEY, ctx.prev);
       const msg = String((err as Error)?.message ?? "");
       if (msg.includes("BUDGET_EXCEEDED")) {
-        toast.error("You've used all 3 votes", {
+        toast.error(`You've used all ${state.budgetTotal} votes`, {
           description: "Remove a vote to back a different startup.",
         });
       } else if (msg.includes("VOTING_CLOSED")) {
@@ -107,7 +107,7 @@ export function VoteProvider({ children }: { children: ReactNode }) {
       hasVoted: (id) => votedIds.has(id),
       toggleVote: (id) => {
         if (!votedIds.has(id) && state.budgetRemaining <= 0) {
-          toast.error("You've used all 3 votes", {
+          toast.error(`You've used all ${state.budgetTotal} votes`, {
             description: "Remove a vote to back a different startup.",
           });
           return;

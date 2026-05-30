@@ -42,8 +42,8 @@ import {
 export const Route = createFileRoute("/cycles_/2025")({
   head: () => ({
     meta: [
-      { title: "Cycle 2025 — Berlin50" },
-      { name: "description", content: "Results of the 2025 Berlin50 funding cycle." },
+      { title: "Cycle 2025 — Berlin Venture 50" },
+      { name: "description", content: "Results of the 2025 Berlin Venture 50 funding cycle." },
     ],
   }),
   component: Cycle2025,
@@ -107,7 +107,7 @@ function Cycle2025() {
           <Link to="/" className="flex items-center gap-2.5">
             <BerlinHuntLogo size={36} className="drop-shadow-sm" />
             <div className="flex flex-col leading-none">
-              <span className="text-[15px] font-semibold tracking-tight">Berlin50</span>
+              <span className="text-[15px] font-semibold tracking-tight">Berlin Venture 50</span>
               <span className="mt-0.5 text-[10px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
                 Cycle archive
               </span>

@@ -6,10 +6,10 @@ import { SiteNav } from "@/components/site-nav";
 export const Route = createFileRoute("/how-it-works")({
   head: () => ({
     meta: [
-      { title: "How it works — Berlin50" },
-      { name: "description", content: "Learn how the Berlin50 funding vote works." },
-      { property: "og:title", content: "How it works — Berlin50" },
-      { property: "og:description", content: "Learn how the Berlin50 funding vote works." },
+      { title: "How it works — Berlin Venture 50" },
+      { name: "description", content: "Learn how the Berlin Venture 50 funding vote works." },
+      { property: "og:title", content: "How it works — Berlin Venture 50" },
+      { property: "og:description", content: "Learn how the Berlin Venture 50 funding vote works." },
     ],
   }),
   component: HowItWorks,
@@ -23,7 +23,7 @@ function HowItWorks() {
           <Link to="/" className="flex items-center gap-2.5">
             <BerlinHuntLogo size={36} className="drop-shadow-sm" />
             <div className="flex flex-col leading-none">
-              <span className="text-[15px] font-semibold tracking-tight">Berlin50</span>
+              <span className="text-[15px] font-semibold tracking-tight">Berlin Venture 50</span>
               <span className="mt-0.5 text-[10px] font-medium uppercase tracking-[0.16em] text-muted-foreground">
                 Funding cycle 2026
               </span>
@@ -41,7 +41,7 @@ function HowItWorks() {
           Berlin's tax money, steered by Berliners.
         </h1>
         <p className="mt-5 max-w-2xl text-lg text-muted-foreground">
-          Berlin50 is a public platform where Berliners decide which local startups
+          Berlin Venture 50 is a public platform where Berliners decide which local startups
           receive a share of their tax money — transparent, democratic, once a year.
         </p>
 
@@ -57,7 +57,7 @@ function HowItWorks() {
               citizens want a real say in how their tax money is spent.
             </p>
             <p>
-              Berlin50 was born out of that tension: a small, fixed share of
+              Berlin Venture 50 was born out of that tension: a small, fixed share of
               Berlin's business and income tax revenue flows into a municipal growth
               fund — and Berliners collectively decide which startups receive capital
               from it.
@@ -94,7 +94,7 @@ function HowItWorks() {
           </div>
           <p className="mt-2 max-w-2xl text-muted-foreground">
             Berlin is still a top-15 global startup ecosystem, but has slipped behind
-            the leaders in capital availability. Berlin50 is built to reverse that —
+            the leaders in capital availability. Berlin Venture 50 is built to reverse that —
             re-igniting the city as Europe's most ambitious founder hub.
           </p>
 
@@ -235,7 +235,7 @@ function HubsTable() {
       </div>
       <div className="border-t border-border bg-muted/30 px-4 py-3 text-xs text-muted-foreground">
         Berlin dropped three spots since 2024 — mostly due to a shrinking late-stage
-        funding base. Berlin50 closes that gap with locally-anchored, citizen-directed
+        funding base. Berlin Venture 50 closes that gap with locally-anchored, citizen-directed
         growth capital, so the next decade of European tech is built here.
       </div>
     </div>
@@ -248,7 +248,7 @@ const PHASES = [
     label: "Tax inflow",
     window: "Jan – Mar",
     icon: <Coins className="h-4 w-4" />,
-    body: "A pre-agreed share of Berlin's tax revenue is booked into the Berlin50 fund.",
+    body: "A pre-agreed share of Berlin's tax revenue is booked into the Berlin Venture 50 fund.",
   },
   {
     n: "02",

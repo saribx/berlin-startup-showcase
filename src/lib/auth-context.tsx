@@ -35,17 +35,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const loginMut = useMutation({
     mutationFn: (name: string) => signIn({ data: { name } }),
-    onSuccess: (res) => qc.setQueryData(ME_KEY, { user: res.user }),
+    onSuccess: (res) => {
+      qc.setQueryData(ME_KEY, { user: res.user });
+      // Signing in flips the fund position from gated → the citizen's own
+      // (starting balance + any deposits), so refetch it.
+      qc.invalidateQueries({ queryKey: ["portfolio"] });
+    },
   });
 
   const logoutMut = useMutation({
     mutationFn: () => signOut(),
     onSuccess: () => {
       qc.setQueryData(ME_KEY, { user: null });
-      // The session is gone — vote budget + comment "mine" state belong to a
-      // fresh anonymous citizen now, so refetch them.
+      // The session is gone — vote budget, comment "mine" state, and the fund
+      // position belong to a fresh anonymous citizen now, so refetch them.
       qc.invalidateQueries({ queryKey: ["voteState"] });
       qc.invalidateQueries({ queryKey: ["comments"] });
+      qc.invalidateQueries({ queryKey: ["portfolio"] });
     },
   });
 

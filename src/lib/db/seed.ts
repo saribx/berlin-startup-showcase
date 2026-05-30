@@ -72,7 +72,7 @@ function main() {
       title: "Funding cycle 2026",
       status: "voting",
       poolEur: 200_000_000,
-      voteBudget: 3,
+      voteBudget: 50,
       isActive: true,
       startsAt: nowSec,
       endsAt: nowSec + VOTE_WINDOW_SEC,

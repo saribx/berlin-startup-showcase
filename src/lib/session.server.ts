@@ -8,7 +8,7 @@ import { getDb } from "./db.server";
 import { sessions, users, type User } from "./db/schema";
 
 // Server-authoritative pseudonymous identity. Each browser gets its OWN citizen
-// id in an httpOnly cookie, so the "3 votes per person" budget is per-visitor.
+// id in an httpOnly cookie, so the "50 votes per person" budget is per-visitor.
 // Vote-first: requireUser() mints on demand, so voting never requires a login;
 // the login dialog is an optional "claim a name" step (signIn).
 //

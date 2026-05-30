@@ -9,7 +9,7 @@ import {
 } from "drizzle-orm/sqlite-core";
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Berlin50 schema — the single serialization point for all backend tracks.
+// Berlin Venture 50 schema — the single serialization point for all backend tracks.
 // Frozen after the spine: tracks import tables/types from here but never edit it.
 // A new column = a tiny spine-amendment everyone rebases on.
 //
@@ -25,8 +25,8 @@ export const cycles = sqliteTable("cycles", {
   poolEur: integer("pool_eur").notNull(),
   startsAt: integer("starts_at"),
   endsAt: integer("ends_at"),
-  /** The "3 votes per person" rule lives here, per cycle. */
-  voteBudget: integer("vote_budget").notNull().default(3),
+  /** The "50 votes per person" rule lives here, per cycle. */
+  voteBudget: integer("vote_budget").notNull().default(50),
   isActive: integer("is_active", { mode: "boolean" }).notNull().default(false),
 });
 
@@ -78,7 +78,7 @@ export const sessions = sqliteTable("sessions", {
 
 /**
  * Votes. UNIQUE(user,startup,cycle) makes a vote idempotent (no double count);
- * the per-cycle budget of 3 is enforced in the toggleVote handler's transaction.
+ * the per-cycle budget of 50 is enforced in the toggleVote handler's transaction.
  */
 export const votes = sqliteTable(
   "votes",
@@ -152,6 +152,30 @@ export const commentVotes = sqliteTable(
   (t) => [uniqueIndex("uniq_comment_vote").on(t.commentId, t.userId)],
 );
 
+/**
+ * Citizen co-investment deposits — capital a signed-in citizen adds into the
+ * cycle's fund. The ledger is the source of truth (no denormalized balance):
+ * principal = SUM(amount_eur); returns are computed in fund.server.ts from the
+ * funded cohort. Whole EUR, like cycles.pool_eur. createdAt drives time-accrual.
+ */
+export const deposits = sqliteTable(
+  "deposits",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    cycleId: integer("cycle_id")
+      .notNull()
+      .references(() => cycles.id),
+    amountEur: integer("amount_eur").notNull(),
+    createdAt: integer("created_at")
+      .notNull()
+      .default(sql`(unixepoch())`),
+  },
+  (t) => [index("idx_deposits_user").on(t.userId)],
+);
+
 // Inferred types for use across server modules.
 export type Cycle = typeof cycles.$inferSelect;
 export type StartupRow = typeof startups.$inferSelect;
@@ -160,3 +184,4 @@ export type Session = typeof sessions.$inferSelect;
 export type Vote = typeof votes.$inferSelect;
 export type CommentRow = typeof comments.$inferSelect;
 export type CommentVote = typeof commentVotes.$inferSelect;
+export type Deposit = typeof deposits.$inferSelect;
