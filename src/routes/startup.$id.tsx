@@ -1,10 +1,10 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { ArrowLeft, ChevronUp, ExternalLink } from "lucide-react";
-import { getDetail, startups } from "@/data/startups";
+import { getDetail, startups, type StartupDetail } from "@/data/startups";
 
 export const Route = createFileRoute("/startup/$id")({
-  loader: ({ params }) => {
+  loader: ({ params }): { detail: StartupDetail } => {
     const id = Number(params.id);
     if (!startups.find((s) => s.id === id)) throw notFound();
     return { detail: getDetail(id) };
